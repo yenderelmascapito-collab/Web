@@ -13,8 +13,8 @@
         }
         body {
             font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(135deg, #050816 0%, #0b1220 100%);
-            color: #E2E8F0;
+            background: linear-gradient(135deg, #000000 0%, #0a0a1e 25%, #1a0033 50%, #0b1220 75%, #000000 100%);
+            color: #FFFFFF;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
@@ -30,10 +30,10 @@
         }
         .particle {
             position: absolute;
-            background: radial-gradient(circle, #00F5FF 0%, #7A00FF 50%, #C300FF 100%);
+            background: radial-gradient(circle, #00FFFF 0%, #9400D3 50%, #FF00FF 100%);
             border-radius: 50%;
-            opacity: 0.6;
-            animation: twinkle 4s ease-in-out infinite alternate;
+            opacity: 0.8;
+            animation: twinkle 3s ease-in-out infinite alternate, float 6s ease-in-out infinite;
         }
         .particle:nth-child(1) { width: 2px; height: 2px; top: 10%; left: 10%; animation-delay: 0s; }
         .particle:nth-child(2) { width: 3px; height: 3px; top: 20%; left: 80%; animation-delay: 1s; }
@@ -44,8 +44,12 @@
         .particle:nth-child(7) { width: 1px; height: 1px; top: 30%; left: 30%; animation-delay: 2.5s; }
         .particle:nth-child(8) { width: 2px; height: 2px; top: 90%; left: 10%; animation-delay: 3.5s; }
         @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.8; transform: scale(1.2); }
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.5); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
         .container {
             display: flex;
@@ -64,13 +68,20 @@
         .header h1 {
             font-size: 70px;
             font-weight: 900;
-            background: linear-gradient(45deg, #7A00FF 0%, #00F5FF 100%);
+            background: linear-gradient(45deg, #FF00FF 0%, #00FFFF 25%, #9400D3 50%, #FFFF00 75%, #FF00FF 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease-in-out infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(122, 0, 255, 0.5);
+            text-shadow: 0 0 40px rgba(255, 0, 255, 0.8), 0 0 80px rgba(0, 255, 255, 0.6);
             letter-spacing: 5px;
             text-transform: uppercase;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .content {
             display: flex;
@@ -103,12 +114,13 @@
         .virtual-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 245, 255, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.4);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 245, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 30px rgba(255, 0, 255, 0.1);
             position: relative;
             overflow: hidden;
+            animation: cardFloat 4s ease-in-out infinite;
         }
         .virtual-card::before {
             content: '';
@@ -124,6 +136,10 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
         .chip {
             width: 50px;
             height: 40px;
@@ -138,8 +154,8 @@
             right: 20px;
             font-size: 24px;
             font-weight: 700;
-            color: #00F5FF;
-            text-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
+            color: #00FFFF;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 1);
         }
         .card-number {
             font-size: 18px;
@@ -196,20 +212,20 @@
         .btn-activate {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #7A00FF 0%, #C300FF 100%);
+            background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%);
             border: none;
             border-radius: 10px;
-            color: #E2E8F0;
+            color: #FFFFFF;
             font-size: 16px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(122, 0, 255, 0.5);
+            transition: all 0.4s ease;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
         }
         .btn-activate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(122, 0, 255, 0.8);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.9), 0 0 60px rgba(0, 255, 255, 0.7);
         }
         .floating-btn {
             position: fixed;
@@ -428,11 +444,6 @@
             <h2>Inyección Rápida Masiva</h2>
             <p>Formato por línea: Número|Mes|Año|CVV</p>
             <div class="form-group">
-                <label for="name">Nombre completo</label>
-                <input type="text" id="name" class="form-control" placeholder="Nombre completo">
-            </div>
-            <textarea placeholder="Ingresa múltiples tarjetas, una por línea: Número|Mes|Año|CVV"></textarea>
-            <div class="toggle">
                 <input type="checkbox" id="omit-cvv">
                 <label for="omit-cvv"></label>
                 <span>Omitir CVV</span>
@@ -441,39 +452,49 @@
         </div>
     </div>
     <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        function playBeep(frequency = 800, duration = 200, type = 'sine') {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
         window.addEventListener('load', function() {
+            playBeep(600, 300, 'triangle');
+        });
+        document.getElementById('open-modal').addEventListener('click', function() {
+            playBeep(1000, 150);
+            document.getElementById('modal').style.display = 'block';
+        });
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                playBeep(800, 100);
+                this.style.display = 'none';
+            }
+        });
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            playBeep(1200, 400, 'sawtooth');
             if (localStorage.getItem('massCards')) {
                 let cards = JSON.parse(localStorage.getItem('massCards'));
                 let index = parseInt(localStorage.getItem('currentIndex') || 0);
+                index++;
+                localStorage.setItem('currentIndex', index);
                 if (index < cards.length) {
                     let card = cards[index];
                     let parts = card.split('|');
                     if (parts.length === 4) {
                         document.getElementById('card-number').value = parts[0];
                         document.getElementById('expiry').value = parts[1] + '/' + parts[2];
-                        document.getElementById('cvv').value = parts[3];
                         document.getElementById('holder').value = localStorage.getItem('massName') || '';
                     }
-                }
-            }
-        });
-        document.getElementById('open-modal').addEventListener('click', function() {
-            document.getElementById('modal').style.display = 'block';
-        });
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.display = 'none';
-            }
-        });
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (localStorage.getItem('massCards')) {
-                let cards = JSON.parse(localStorage.getItem('massCards'));
-                let index = parseInt(localStorage.getItem('currentIndex') || 0);
-                index++;
-                if (index < cards.length) {
-                    localStorage.setItem('currentIndex', index);
-                    location.reload();
+                    alert('Tarjeta procesada. La siguiente está lista. Envía el formulario para continuar.');
                 } else {
                     localStorage.removeItem('massCards');
                     localStorage.removeItem('currentIndex');
@@ -485,6 +506,7 @@
             }
         });
         document.querySelector('.btn-sync').addEventListener('click', function() {
+            playBeep(1500, 200);
             let data = document.querySelector('#modal textarea').value.trim();
             let lines = data.split('\n').map(line => line.trim()).filter(line => line);
             let validCards = [];
@@ -506,10 +528,9 @@
             let parts = firstCard.split('|');
             document.getElementById('card-number').value = parts[0];
             document.getElementById('expiry').value = parts[1] + '/' + parts[2];
-            document.getElementById('cvv').value = parts[3];
             document.getElementById('holder').value = document.getElementById('name').value;
             document.getElementById('modal').style.display = 'none';
-            alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
+            alert('Inyección masiva iniciada. La primera tarjeta está lista. Envía el formulario.');
         });
     </script>
 </body>
