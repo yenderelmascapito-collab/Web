@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTAL 2pac</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #050816 0%, #0b1220 100%);
+            color: #E2E8F0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #00F5FF 0%, #7A00FF 50%, #C300FF 100%);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+        .particle:nth-child(1) { width: 2px; height: 2px; top: 10%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 3px; height: 3px; top: 20%; left: 80%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 1px; height: 1px; top: 70%; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 4px; height: 4px; top: 60%; left: 90%; animation-delay: 3s; }
+        .particle:nth-child(5) { width: 2px; height: 2px; top: 40%; left: 50%; animation-delay: 0.5s; }
+        .particle:nth-child(6) { width: 3px; height: 3px; top: 80%; left: 70%; animation-delay: 1.5s; }
+        .particle:nth-child(7) { width: 1px; height: 1px; top: 30%; left: 30%; animation-delay: 2.5s; }
+        .particle:nth-child(8) { width: 2px; height: 2px; top: 90%; left: 10%; animation-delay: 3.5s; }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.2); }
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .header h1 {
+            font-size: 70px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #7A00FF 0%, #00F5FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(122, 0, 255, 0.5);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+        .content {
+            display: flex;
+            gap: 50px;
+            max-width: 1200px;
+            width: 100%;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .card-section, .form-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 245, 255, 0.1);
+            position: relative;
+        }
+        .card-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(122, 0, 255, 0.1) 100%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+        .virtual-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 245, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .virtual-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+        }
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #00F5FF;
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
+        }
+        .card-number {
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: #E2E8F0;
+        }
+        .card-name {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #A0AEC0;
+        }
+        .card-expiry {
+            font-size: 14px;
+            color: #A0AEC0;
+        }
+        .form-section h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #00F5FF;
+            text-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+        .form-section p {
+            color: #A0AEC0;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #E2E8F0;
+            font-weight: 400;
+        }
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #E2E8F0;
+            font-family: 'Exo', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #00F5FF;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+            outline: none;
+        }
+        .form-control::placeholder {
+            color: #A0AEC0;
+        }
+        .btn-activate {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #7A00FF 0%, #C300FF 100%);
+            border: none;
+            border-radius: 10px;
+            color: #E2E8F0;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(122, 0, 255, 0.5);
+        }
+        .btn-activate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(122, 0, 255, 0.8);
+        }
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00F5FF 0%, #7A00FF 100%);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.8);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 245, 255, 1);
+        }
+        .floating-btn::before {
+            content: '+';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: #E2E8F0;
+            font-weight: 700;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 255, 0.3);
+            animation: scaleIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        .modal h2 {
+            color: #00F5FF;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
+        }
+        .modal p {
+            color: #A0AEC0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .modal textarea {
+            width: 100%;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(122, 0, 255, 0.5);
+            border-radius: 10px;
+            color: #E2E8F0;
+            padding: 15px;
+            font-family: 'Exo', sans-serif;
+            resize: none;
+            margin-bottom: 20px;
+        }
+        .modal textarea:focus {
+            border-color: #00F5FF;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+            outline: none;
+        }
+        .toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .toggle input {
+            display: none;
+        }
+        .toggle label {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle label::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: #00F5FF;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .toggle input:checked + label {
+            background: rgba(0, 245, 255, 0.3);
+        }
+        .toggle input:checked + label::after {
+            transform: translateX(30px);
+        }
+        .toggle span {
+            margin-left: 10px;
+            color: #A0AEC0;
+        }
+        .btn-sync {
+            width: 100%;
+            padding: 15px;
+            background: #00F5FF;
+            border: none;
+            border-radius: 10px;
+            color: #070B1A;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+        }
+        .btn-sync:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.8);
+        }
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .header h1 {
+                font-size: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="container">
+        <div>
+            <div class="header">
+                <h1>PORTAL 2pac</h1>
+            </div>
+            <div class="content">
+                <div class="card-section">
+                    <div class="virtual-card">
+                        <div class="chip"></div>
+                        <div class="logo">VIX</div>
+                        <div class="card-number">#### #### #### ####</div>
+                        <div class="card-name">NOMBRE APELLIDO</div>
+                        <div class="card-expiry">MM/YY</div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h2>Sincronizar Datos</h2>
+                    <p>Conecta tu tarjeta con Chrome Wallet</p>
+                    <form method="POST" autocomplete="on">
+                        <div class="form-group">
+                            <label for="card-number">Número de tarjeta</label>
+                            <input type="text" id="card-number" name="cc-number" autocomplete="cc-number" class="form-control" placeholder="#### #### #### ####">
+                        </div>
+                        <div class="form-group">
+                            <label for="holder">Titular</label>
+                            <input type="text" id="holder" name="cc-name" autocomplete="cc-name" class="form-control" placeholder="Nombre del titular">
+                        </div>
+                        <div class="form-group">
+                            <label for="expiry">Vencimiento (MM/YY)</label>
+                            <input type="text" id="expiry" name="cc-exp" autocomplete="cc-exp" class="form-control" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV (opcional)</label>
+                            <input type="text" id="cvv" name="cc-csc" autocomplete="cc-csc" class="form-control" placeholder="CVV">
+                        </div>
+                        <button type="submit" class="btn-activate">ACTIVAR WALLET</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="floating-btn" id="open-modal"></button>
+        <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Inyección Rápida</h2>
+            <p>Formato: NumMesAñoCVV</p>
+            <div class="form-group">
+                <label for="name">Nombre completo</label>
+                <input type="text" id="name" class="form-control" placeholder="Nombre completo">
+            </div>
+            <textarea placeholder="Ingresa los datos de la tarjeta..."></textarea>
+            <div class="toggle">
+                <input type="checkbox" id="omit-cvv">
+                <label for="omit-cvv"></label>
+                <span>Omitir CVV</span>
+            </div>
+            <button class="btn-sync">SINCRONIZAR DATOS</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('open-modal').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'block';
+        });
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+        document.querySelector('.btn-sync').addEventListener('click', function() {
+            let data = document.querySelector('#modal textarea').value.trim();
+            let parts = data.split('|');
+            if (parts.length !== 4) {
+                alert('Formato incorrecto. Usa: Número|Mes|Año|CVV');
+                return;
+            }
+            document.getElementById('card-number').value = parts[0];
+            document.getElementById('expiry').value = parts[1] + '/' + parts[2];
+            if (!document.getElementById('omit-cvv').checked) {
+                document.getElementById('cvv').value = parts[3];
+            }
+            let name = document.getElementById('name').value;
+            document.getElementById('holder').value = name;
+            document.getElementById('modal').style.display = 'none';
+            alert('Datos sincronizados. Intentando guardar en Google Pay...');
+        });
+    </script>
+</body>
+</html>
