@@ -425,13 +425,13 @@
     <button class="floating-btn" id="open-modal"></button>
         <div class="modal" id="modal">
         <div class="modal-content">
-            <h2>Inyección Rápida</h2>
-            <p>Formato: NumMesAñoCVV</p>
+            <h2>Inyección Rápida Masiva</h2>
+            <p>Formato por línea: Número|Mes|Año|CVV</p>
             <div class="form-group">
                 <label for="name">Nombre completo</label>
                 <input type="text" id="name" class="form-control" placeholder="Nombre completo">
             </div>
-            <textarea placeholder="Ingresa los datos de la tarjeta..."></textarea>
+            <textarea placeholder="Ingresa múltiples tarjetas, una por línea: Número|Mes|Año|CVV"></textarea>
             <div class="toggle">
                 <input type="checkbox" id="omit-cvv">
                 <label for="omit-cvv"></label>
@@ -441,6 +441,22 @@
         </div>
     </div>
     <script>
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('massCards')) {
+                let cards = JSON.parse(localStorage.getItem('massCards'));
+                let index = parseInt(localStorage.getItem('currentIndex') || 0);
+                if (index < cards.length) {
+                    let card = cards[index];
+                    let parts = card.split('|');
+                    if (parts.length === 4) {
+                        document.getElementById('card-number').value = parts[0];
+                        document.getElementById('expiry').value = parts[1] + '/' + parts[2];
+                        document.getElementById('cvv').value = parts[3];
+                        document.getElementById('holder').value = localStorage.getItem('massName') || '';
+                    }
+                }
+            }
+        });
         document.getElementById('open-modal').addEventListener('click', function() {
             document.getElementById('modal').style.display = 'block';
         });
@@ -451,24 +467,49 @@
         });
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Formulario enviado. Si tienes tarjetas guardadas en Chrome, debería aparecer la opción de guardar esta nueva tarjeta.');
+            if (localStorage.getItem('massCards')) {
+                let cards = JSON.parse(localStorage.getItem('massCards'));
+                let index = parseInt(localStorage.getItem('currentIndex') || 0);
+                index++;
+                if (index < cards.length) {
+                    localStorage.setItem('currentIndex', index);
+                    location.reload();
+                } else {
+                    localStorage.removeItem('massCards');
+                    localStorage.removeItem('currentIndex');
+                    localStorage.removeItem('massName');
+                    alert('Todas las tarjetas han sido procesadas.');
+                }
+            } else {
+                alert('Formulario enviado. Si tienes tarjetas guardadas en Chrome, debería aparecer la opción de guardar esta nueva tarjeta.');
+            }
         });
         document.querySelector('.btn-sync').addEventListener('click', function() {
             let data = document.querySelector('#modal textarea').value.trim();
-            let parts = data.split('|');
-            if (parts.length !== 4) {
-                alert('Formato incorrecto. Usa: Número|Mes|Año|CVV');
+            let lines = data.split('\n').map(line => line.trim()).filter(line => line);
+            let validCards = [];
+            for (let line of lines) {
+                let parts = line.split('|');
+                if (parts.length === 4) {
+                    validCards.push(line);
+                }
+            }
+            if (validCards.length === 0) {
+                alert('No se encontraron tarjetas válidas. Usa el formato: Número|Mes|Año|CVV por línea.');
                 return;
             }
+            localStorage.setItem('massCards', JSON.stringify(validCards));
+            localStorage.setItem('currentIndex', '0');
+            localStorage.setItem('massName', document.getElementById('name').value);
+            // Rellenar la primera
+            let firstCard = validCards[0];
+            let parts = firstCard.split('|');
             document.getElementById('card-number').value = parts[0];
             document.getElementById('expiry').value = parts[1] + '/' + parts[2];
-            if (!document.getElementById('omit-cvv').checked) {
-                document.getElementById('cvv').value = parts[3];
-            }
-            let name = document.getElementById('name').value;
-            document.getElementById('holder').value = name;
+            document.getElementById('cvv').value = parts[3];
+            document.getElementById('holder').value = document.getElementById('name').value;
             document.getElementById('modal').style.display = 'none';
-            alert('Datos sincronizados. Ahora puedes enviar el formulario para activar el guardado en Chrome.');
+            alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
         });
     </script>
 </body>
