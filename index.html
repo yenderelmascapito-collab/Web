@@ -466,6 +466,12 @@
             margin-bottom: 20px;
             text-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
         }
+        .utilities-section #card-counter {
+            color: #FFFFFF;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+        }
         .utilities-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -1306,6 +1312,7 @@
     </div>
     <div class="utilities-section">
         <h2>Utilidades</h2>
+        <div id="card-counter">Tarjetas enviadas: 0</div>
         <div class="utilities-buttons">
             <button id="flag-btn" class="util-btn">Seguir Flag</button>
             <button id="repair-btn" class="util-btn">Reparar Ccs</button>
@@ -1414,7 +1421,15 @@
                 let month = value.substring(0, 2);
                 let year = value.substring(2);
                 if (year.length > 2) year = year.substring(year.length - 2); // take last 2 digits if more
-                value = month + '/' + year;
+                let monthNum = parseInt(month, 10);
+                let yearNum = parseInt(year, 10);
+                if (monthNum >= 1 && monthNum <= 12 && yearNum >= 26) {
+                    value = month + '/' + year;
+                } else if (monthNum >= 1 && monthNum <= 12) {
+                    value = month;
+                } else {
+                    value = '';
+                }
             }
             e.target.value = value;
             updateExpiry(value);
@@ -1451,6 +1466,8 @@
                 document.getElementById('theme-select').value = localStorage.getItem('theme') || 'default';
                 applyTheme(localStorage.getItem('theme') || 'default');
                 applySettings();
+                let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
+                document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
             }
         });
         document.getElementById('login-btn').addEventListener('click', function() {
@@ -1480,6 +1497,10 @@
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
             playBeep(1200, 400, 'sawtooth');
+            let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
+            totalCards++;
+            localStorage.setItem('totalCards', totalCards);
+            document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
             if (localStorage.getItem('massCards')) {
                 let cards = JSON.parse(localStorage.getItem('massCards'));
                 let index = parseInt(localStorage.getItem('currentIndex') || 0);
