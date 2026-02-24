@@ -1497,6 +1497,15 @@
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
             playBeep(1200, 400, 'sawtooth');
+            // Validation
+            let cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            let holder = document.getElementById('holder').value.trim();
+            let expiry = document.getElementById('expiry').value;
+            let cvv = document.getElementById('cvv').value;
+            if (cardNumber.length < 13 || cardNumber.length > 16 || holder === '' || !expiry.includes('/') || expiry.length !== 5 || cvv.length < 3 || cvv.length > 4) {
+                alert('Por favor, completa todos los campos correctamente.');
+                return;
+            }
             let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
             totalCards++;
             localStorage.setItem('totalCards', totalCards);
