@@ -439,6 +439,49 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+        .utilities-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+        .utilities-section h2 {
+            color: #00F5FF;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+        .utilities-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .util-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%);
+            border: none;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        .util-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -502,6 +545,16 @@
             </div>
         </div>
     </div>
+    <div class="utilities-section">
+        <h2>Utilidades</h2>
+        <div class="utilities-buttons">
+            <button id="flag-btn" class="util-btn">Seguir Flag</button>
+            <button id="repair-btn" class="util-btn">Reparar Ccs</button>
+            <button id="payments-btn" class="util-btn">Payaments</button>
+            <button id="wallet-btn" class="util-btn">Wallet</button>
+            <button id="settings-btn" class="util-btn">Ajustes</button>
+        </div>
+    </div>
     <button class="floating-btn" id="open-modal"></button>
         <div class="modal" id="modal">
         <div class="modal-content">
@@ -513,6 +566,24 @@
             </div>
             <textarea placeholder="Ingresa múltiples tarjetas, una por línea: Número|Mes|Año|CVV"></textarea>
             <button class="btn-sync">SINCRONIZAR DATOS</button>
+        </div>
+    </div>
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <h2>Ajustes</h2>
+            <div class="form-group">
+                <label for="bg-color">Color de fondo</label>
+                <input type="color" id="bg-color" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="text-color">Color de texto</label>
+                <input type="color" id="text-color" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="bg-image">Imagen de fondo (URL)</label>
+                <input type="text" id="bg-image" class="form-control" placeholder="https://example.com/image.jpg">
+            </div>
+            <button id="save-settings" class="btn-sync">Guardar Ajustes</button>
         </div>
     </div>
     <script>
@@ -567,6 +638,10 @@
                         }
                     }
                 }
+                // Load settings
+                document.getElementById('bg-color').value = localStorage.getItem('bgColor') || '#000000';
+                document.getElementById('text-color').value = localStorage.getItem('textColor') || '#FFFFFF';
+                document.getElementById('bg-image').value = localStorage.getItem('bgImage') || '';
             }
         });
         document.getElementById('login-btn').addEventListener('click', function() {
@@ -638,6 +713,61 @@
             document.getElementById('modal').style.display = 'none';
             alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
         });
+        // Utilities buttons
+        document.getElementById('flag-btn').addEventListener('click', function() {
+            navigator.clipboard.writeText('chrome://flags/#enable-autofill-credit-card-upload').then(() => {
+                alert('Flag copiado al portapapeles');
+            });
+        });
+        document.getElementById('repair-btn').addEventListener('click', function() {
+            window.location.href = 'https://poshmark.com/listing/681ba8dea566490f48327db4/guest_buy?size=6';
+        });
+        document.getElementById('payments-btn').addEventListener('click', function() {
+            window.location.href = 'https://payments.google.com/payments/home';
+        });
+        document.getElementById('wallet-btn').addEventListener('click', function() {
+            window.location.href = 'https://wallet.google.com/wallet/home?utm_source=walletweb';
+        });
+        document.getElementById('settings-btn').addEventListener('click', function() {
+            document.getElementById('settings-modal').style.display = 'block';
+        });
+        document.getElementById('settings-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+        document.getElementById('save-settings').addEventListener('click', function() {
+            const bgColor = document.getElementById('bg-color').value;
+            const textColor = document.getElementById('text-color').value;
+            const bgImage = document.getElementById('bg-image').value;
+            localStorage.setItem('bgColor', bgColor);
+            localStorage.setItem('textColor', textColor);
+            localStorage.setItem('bgImage', bgImage);
+            applySettings();
+            document.getElementById('settings-modal').style.display = 'none';
+            alert('Ajustes guardados');
+        });
+        function applySettings() {
+            const bgColor = localStorage.getItem('bgColor');
+            const textColor = localStorage.getItem('textColor');
+            const bgImage = localStorage.getItem('bgImage');
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+            }
+            if (textColor) {
+                document.body.style.color = textColor;
+            }
+            if (bgImage) {
+                document.body.style.backgroundImage = `url(${bgImage})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundPosition = 'center';
+            } else {
+                document.body.style.backgroundImage = '';
+            }
+        }
+        // Apply settings on load
+        applySettings();
     </script>
 </body>
 </html>
