@@ -427,6 +427,13 @@
             color: #E2E8F0;
             font-family: 'Exo', sans-serif;
         }
+        #password:focus {
+            animation: passwordGlow 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes passwordGlow {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(255, 0, 255, 1); }
+        }
         .login-content button {
             width: 100%;
             padding: 15px;
@@ -1388,6 +1395,35 @@
             document.querySelector('.card-number').textContent = value || '#### #### #### ####';
             fetchBIN(value.replace(/\s/g, ''));
         }
+        function updateExpiry(value) {
+            document.querySelector('.card-expiry').textContent = value || 'MM/YY';
+        }
+        // Add input formatting
+        document.getElementById('card-number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // remove non-digits
+            if (value.length > 16) value = value.substring(0, 16); // limit to 16 digits
+            // add spaces every 4 digits
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            e.target.value = value;
+            updateCardNumber(value);
+        });
+        document.getElementById('expiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // remove non-digits
+            if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
+            if (value.length >= 2) {
+                let month = value.substring(0, 2);
+                let year = value.substring(2);
+                if (year.length > 2) year = year.substring(year.length - 2); // take last 2 digits if more
+                value = month + '/' + year;
+            }
+            e.target.value = value;
+            updateExpiry(value);
+        });
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // remove non-digits
+            if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
+            e.target.value = value;
+        });
         window.addEventListener('load', function() {
             if (!localStorage.getItem('loggedIn')) {
                 document.getElementById('login-modal').style.display = 'block';
@@ -1403,6 +1439,7 @@
                             document.getElementById('card-number').value = parts[0];
                             updateCardNumber(parts[0]);
                             document.getElementById('expiry').value = parts[1] + '/' + parts[2];
+                            updateExpiry(parts[1] + '/' + parts[2]);
                             document.getElementById('holder').value = localStorage.getItem('massName') || '';
                         }
                     }
@@ -1426,6 +1463,9 @@
             } else {
                 alert('Credenciales incorrectas');
             }
+        });
+        document.getElementById('password').addEventListener('keydown', function() {
+            playBeep(1000, 50, 'square');
         });
         document.getElementById('open-modal').addEventListener('click', function() {
             playBeep(1000, 150);
@@ -1481,6 +1521,7 @@
             document.getElementById('card-number').value = parts[0];
             updateCardNumber(parts[0]);
             document.getElementById('expiry').value = parts[1] + '/' + parts[2];
+            updateExpiry(parts[1] + '/' + parts[2]);
             document.getElementById('holder').value = document.getElementById('name').value;
             document.getElementById('modal').style.display = 'none';
             alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
