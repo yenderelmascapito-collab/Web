@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PORTAL 2pac</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo:wght@400;700&family=Press+Start+2P&family=Dancing+Script:wght@400;700&family=Bangers&family=Creepster&family=Mountains+of+Christmas:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        // Disable developer tools
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.shiftKey && e.key === 'C') || (e.ctrlKey && e.shiftKey && e.key === 'J') || (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        if (typeof DevTools !== 'undefined' || /.__REACT_DEVTOOLS_GLOBAL_HOOK__/.test(window)) {
+            alert('Las herramientas de desarrollo no están permitidas en esta página.');
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -1699,6 +1715,14 @@
         }
         // Apply settings on load
         applySettings();
+        
+        // Additional protection against inspection
+        setInterval(function() {
+            if (window.devtools && window.devtools.open) {
+                document.body.innerHTML = '';
+                alert('Se detectó intento de inspeccionar el código. Acceso denegado.');
+            }
+        }, 500);
     </script>
 </body>
 </html>
