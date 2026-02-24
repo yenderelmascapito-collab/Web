@@ -1421,6 +1421,13 @@
         function updateExpiry(value) {
             document.querySelector('.card-expiry').textContent = value || 'MM/YY';
         }
+        function formatCardInput(cardNumber, month, year) {
+            let cardFormatted = cardNumber.replace(/\D/g, '').substring(0, 16);
+            cardFormatted = cardFormatted.replace(/(\d{4})(?=\d)/g, '$1 ');
+            let yearStr = year.toString();
+            if (yearStr.length > 2) yearStr = yearStr.substring(yearStr.length - 2);
+            return { card: cardFormatted, month: month, year: yearStr };
+        }
         // Add input formatting
         document.getElementById('card-number').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // remove non-digits
@@ -1464,10 +1471,11 @@
                         let card = cards[index];
                         let parts = card.split('|');
                         if (parts.length === 4) {
-                            document.getElementById('card-number').value = parts[0];
-                            updateCardNumber(parts[0]);
-                            document.getElementById('expiry').value = parts[1] + '/' + parts[2];
-                            updateExpiry(parts[1] + '/' + parts[2]);
+                            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
+                            document.getElementById('card-number').value = formatted.card;
+                            updateCardNumber(formatted.card);
+                            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
+                            updateExpiry(formatted.month + '/' + formatted.year);
                             document.getElementById('holder').value = localStorage.getItem('massName') || '';
                         }
                     }
@@ -1561,10 +1569,11 @@
             // Rellenar la primera
             let firstCard = validCards[0];
             let parts = firstCard.split('|');
-            document.getElementById('card-number').value = parts[0];
-            updateCardNumber(parts[0]);
-            document.getElementById('expiry').value = parts[1] + '/' + parts[2];
-            updateExpiry(parts[1] + '/' + parts[2]);
+            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
+            document.getElementById('card-number').value = formatted.card;
+            updateCardNumber(formatted.card);
+            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
+            updateExpiry(formatted.month + '/' + formatted.year);
             document.getElementById('holder').value = document.getElementById('name').value;
             document.getElementById('modal').style.display = 'none';
             alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
