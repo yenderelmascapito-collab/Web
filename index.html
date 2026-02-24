@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PORTAL 2pac</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo:wght@400;700&family=Press+Start+2P&family=Dancing+Script:wght@400;700&family=Bangers&family=Creepster&family=Mountains+of+Christmas:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -482,6 +482,703 @@
             transform: translateY(-2px);
             box-shadow: 0 0 25px rgba(255, 0, 255, 0.7);
         }
+        #theme-select {
+            background-color: #000000 !important;
+            color: #FFFFFF !important;
+            border: 1px solid #FFFFFF;
+        }
+        #theme-select option {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        /* Theme Styles */
+        .theme-hacker {
+            font-family: 'Courier New', monospace !important;
+            background: #000000 !important;
+            color: #00FF00 !important;
+            animation: matrixRain 10s linear infinite;
+        }
+        @keyframes matrixRain {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+        .theme-hacker .particles { display: none; }
+        .theme-hacker .header h1 {
+            color: #00FF00 !important;
+            text-shadow: 0 0 10px #00FF00;
+            font-size: 60px;
+            animation: typeWriter 2s steps(20) 1s both;
+        }
+        @keyframes typeWriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .theme-hacker .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 50px 20px;
+        }
+        .theme-hacker .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .theme-hacker .content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .theme-hacker .card-section, .theme-hacker .form-section {
+            width: 100%;
+        }
+        .theme-hacker .virtual-card {
+            background: #000000;
+            border: 1px solid #00FF00;
+            box-shadow: none;
+        }
+        .theme-hacker .btn-activate, .theme-hacker .btn-sync, .theme-hacker .util-btn {
+            background: #00FF00;
+            color: #000000;
+            border-radius: 0;
+        }
+        .theme-hacker .floating-btn {
+            background: #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+        }
+        .theme-hacker .modal-content {
+            background: #000000;
+            border-color: #00FF00;
+        }
+
+
+        .theme-chica {
+            font-family: 'Dancing Script', cursive !important;
+            background: linear-gradient(135deg, #FFB6C1, #FFC0CB) !important;
+            color: #8B008B !important;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .theme-chica .particles { display: block; }
+        .theme-chica .particle {
+            background: radial-gradient(circle, #FF1493 0%, #FF69B4 50%, #FFC0CB 100%);
+        }
+        .theme-chica .header h1 {
+            color: #FF1493 !important;
+            font-size: 80px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { text-shadow: 0 0 10px #FF1493; }
+            50% { text-shadow: 0 0 20px #FF1493, 0 0 30px #FFC0CB; }
+        }
+        .theme-chica .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+        .theme-chica .header {
+            margin-bottom: 30px;
+        }
+        .theme-chica .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 900px;
+        }
+        .theme-chica .utilities-section {
+            margin-top: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .theme-chica .virtual-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #FF1493;
+        }
+        .theme-chica .btn-activate, .theme-chica .btn-sync, .theme-chica .util-btn {
+            background: #FF1493;
+            color: #FFFFFF;
+            border-radius: 20px;
+        }
+        .theme-chica .floating-btn {
+            background: linear-gradient(135deg, #FF1493, #FF69B4);
+        }
+        .theme-chica .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #FF1493;
+            border-radius: 20px;
+        }
+        .theme-hombre {
+            font-family: 'Impact', sans-serif !important;
+            background: linear-gradient(135deg, #000080, #0000FF) !important;
+            color: #FFFFFF !important;
+            animation: thunder 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes thunder {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.3); }
+        }
+        .theme-hombre .particles { display: none; }
+        .theme-hombre .header h1 {
+            color: #FFD700 !important;
+            font-size: 70px;
+            text-transform: uppercase;
+            animation: powerUp 1s ease-in-out infinite alternate;
+        }
+        @keyframes powerUp {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        .theme-hombre .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+        .theme-hombre .header {
+            margin-bottom: 50px;
+        }
+        .theme-hombre .content {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .theme-hombre .utilities-section {
+            margin-top: 70px;
+            text-align: center;
+        }
+        .theme-hombre .virtual-card {
+            background: rgba(0, 0, 128, 0.8);
+            border: 2px solid #FFD700;
+        }
+        .theme-hombre .btn-activate, .theme-hombre .btn-sync, .theme-hombre .util-btn {
+            background: #FFD700;
+            color: #000080;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .theme-hombre .floating-btn {
+            background: #FFD700;
+            color: #000080;
+        }
+        .theme-hombre .modal-content {
+            background: rgba(0, 0, 128, 0.9);
+            border-color: #FFD700;
+            border-radius: 10px;
+        }
+        .theme-juegos {
+            font-family: 'Bangers', cursive !important;
+            background: linear-gradient(135deg, #FF0000, #00FF00, #0000FF, #FFFF00) !important;
+            color: #FFFFFF !important;
+            animation: explode 2s ease-in-out infinite;
+        }
+        @keyframes explode {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+        .theme-juegos .particles { display: block; }
+        .theme-juegos .particle {
+            background: radial-gradient(circle, #FFFF00 0%, #FF0000 50%, #00FF00 100%);
+            animation: cyberFloat 4s ease-in-out infinite;
+        }
+        .theme-juegos .header h1 {
+            color: #FFFF00 !important;
+            text-shadow: 2px 2px #FF0000;
+            font-size: 75px;
+            animation: rainbow 3s linear infinite;
+        }
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        .theme-juegos .content {
+            flex-direction: column;
+        }
+        .theme-juegos .content {
+            flex-direction: column;
+        }
+        .theme-juegos .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 30px;
+            padding: 40px;
+        }
+        .theme-juegos .header {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+        .theme-juegos .content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .theme-juegos .utilities-section {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+        .theme-juegos .virtual-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid #FFFF00;
+        }
+        .theme-juegos .btn-activate, .theme-juegos .btn-sync, .theme-juegos .util-btn {
+            background: #FFFF00;
+            color: #000000;
+            border-radius: 15px;
+        }
+        .theme-juegos .floating-btn {
+            background: linear-gradient(135deg, #FF0000, #00FF00, #0000FF);
+        }
+        .theme-juegos .modal-content {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: #FFFF00;
+            border-radius: 15px;
+        }
+        .theme-minecraft {
+            font-family: 'Courier New', monospace !important;
+            background: linear-gradient(135deg, #8B4513, #228B22) !important;
+            color: #FFFFFF !important;
+            animation: build 4s steps(10) infinite;
+        }
+        @keyframes build {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 50px; }
+        }
+        .theme-minecraft .particles { display: none; }
+        .theme-minecraft .header h1 {
+            color: #FFD700 !important;
+            font-size: 60px;
+            text-shadow: 2px 2px #000000;
+            animation: mine 1s ease-in-out infinite alternate;
+        }
+        @keyframes mine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(2deg); }
+        }
+        .theme-minecraft .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+        .theme-minecraft .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .theme-minecraft .content {
+            display: contents;
+        }
+        .theme-minecraft .utilities-section {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .theme-minecraft .virtual-card {
+            background: #8B4513;
+            border: 4px solid #FFD700;
+            box-shadow: none;
+        }
+        .theme-minecraft .btn-activate, .theme-minecraft .btn-sync, .theme-minecraft .util-btn {
+            background: #FFD700;
+            color: #000000;
+            border-radius: 0;
+        }
+        .theme-minecraft .floating-btn {
+            background: #228B22;
+            border-radius: 0;
+        }
+        .theme-minecraft .modal-content {
+            background: #8B4513;
+            border-color: #FFD700;
+            border-radius: 0;
+        }
+        .theme-cyberpunk {
+            font-family: 'Orbitron', sans-serif !important;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e) !important;
+            color: #00ffff !important;
+            animation: cyberPulse 2s ease-in-out infinite alternate;
+        }
+        .theme-cyberpunk .particles { display: block; }
+        .theme-cyberpunk .particle {
+            background: radial-gradient(circle, #ff00ff 0%, #00ffff 50%, #ffff00 100%);
+            animation: cyberFloat 4s ease-in-out infinite;
+        }
+        @keyframes cyberPulse {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2); }
+        }
+        @keyframes cyberFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+        .theme-cyberpunk .header h1 {
+            color: #00ffff !important;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff; }
+            100% { text-shadow: 0 0 30px #00ffff, 0 0 60px #ff00ff; }
+        }
+        .theme-cyberpunk .container {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 60px 20px;
+        }
+        .theme-cyberpunk .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .theme-cyberpunk .content {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            justify-content: space-between;
+        }
+        .theme-cyberpunk .utilities-section {
+            margin-top: 80px;
+            text-align: center;
+        }
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 10px #00ffff; }
+            50% { box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff; }
+        }
+        .theme-cyberpunk .virtual-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 2px solid #00ffff;
+            animation: cardPulse 2s ease-in-out infinite alternate;
+        }
+        @keyframes cardPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+        .theme-cyberpunk .btn-activate, .theme-cyberpunk .btn-sync, .theme-cyberpunk .util-btn {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000000;
+            border-radius: 10px;
+            animation: btnGlow 1s ease-in-out infinite alternate;
+        }
+        @keyframes btnGlow {
+            0% { box-shadow: 0 0 10px #00ffff; }
+            100% { box-shadow: 0 0 20px #ff00ff; }
+        }
+        .theme-cyberpunk .floating-btn {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            animation: floatGlow 2s ease-in-out infinite alternate;
+        }
+        .theme-cyberpunk .modal-content {
+            background: rgba(26, 26, 46, 0.9);
+            border-color: #00ffff;
+            border-radius: 15px;
+        }
+
+        .theme-nature {
+            font-family: 'Dancing Script', cursive !important;
+            background: linear-gradient(135deg, #228B22, #32CD32, #90EE90) !important;
+            color: #ffffff !important;
+            animation: natureSway 4s ease-in-out infinite;
+        }
+        .theme-nature .particles { display: block; }
+        .theme-nature .particle {
+            background: radial-gradient(circle, #FFD700 0%, #FF6347 50%, #228B22 100%);
+            animation: leafFall 6s ease-in-out infinite;
+        }
+        @keyframes natureSway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(1deg); }
+        }
+        @keyframes leafFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .theme-nature .header h1 {
+            color: #FFD700 !important;
+            font-size: 70px;
+            animation: bloom 2s ease-in-out infinite alternate;
+        }
+        @keyframes bloom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        .theme-nature .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 70px 30px;
+        }
+        .theme-nature .header {
+            margin-bottom: 50px;
+        }
+        .theme-nature .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .theme-nature .utilities-section {
+            margin-top: 60px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        @keyframes grow {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        .theme-nature .virtual-card {
+            background: rgba(50, 205, 50, 0.8);
+            border: 2px solid #FFD700;
+        }
+        .theme-nature .btn-activate, .theme-nature .btn-sync, .theme-nature .util-btn {
+            background: #228B22;
+            color: #ffffff;
+            border-radius: 25px;
+        }
+        .theme-nature .floating-btn {
+            background: #32CD32;
+            border-radius: 50%;
+            animation: flutter 1s ease-in-out infinite alternate;
+        }
+        @keyframes flutter {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+        .theme-nature .modal-content {
+            background: rgba(144, 238, 144, 0.9);
+            border-color: #228B22;
+            border-radius: 25px;
+        }
+        .theme-halloween {
+            font-family: 'Creepster', cursive !important;
+            background: linear-gradient(135deg, #000000, #2F1B14, #8B0000) !important;
+            color: #FFA500 !important;
+            animation: spooky 3s ease-in-out infinite;
+        }
+        .theme-halloween .particles { display: block; }
+        .theme-halloween .particle {
+            background: radial-gradient(circle, #FF4500 0%, #8B0000 50%, #000000 100%);
+            animation: haunt 5s ease-in-out infinite;
+        }
+        @keyframes spooky {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(0.8) hue-rotate(10deg); }
+        }
+        @keyframes haunt {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        .theme-halloween .header h1 {
+            color: #FF4500 !important;
+            font-size: 80px;
+            text-shadow: 0 0 20px #FF4500;
+            animation: flicker 1s ease-in-out infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        .theme-halloween .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 40px;
+            padding: 50px;
+        }
+        .theme-halloween .header {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+        .theme-halloween .content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .theme-halloween .utilities-section {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+        .theme-halloween .card-section, .theme-halloween .form-section, .theme-halloween .utilities-section {
+            background: rgba(139, 0, 0, 0.3);
+            border-color: #FF4500;
+            border-radius: 20px;
+        }
+        .theme-halloween .virtual-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #FF4500;
+        }
+        .theme-halloween .btn-activate, .theme-halloween .btn-sync, .theme-halloween .util-btn {
+            background: #FF4500;
+            color: #000000;
+            border-radius: 20px;
+        }
+        .theme-halloween .floating-btn {
+            background: #8B0000;
+        }
+        .theme-halloween .modal-content {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: #FF4500;
+            border-radius: 20px;
+        }
+        .theme-christmas {
+            font-family: 'Mountains of Christmas', cursive !important;
+            background: linear-gradient(135deg, #228B22, #DC143C, #FFD700) !important;
+            color: #FFFFFF !important;
+            animation: snowFall 4s linear infinite;
+        }
+        .theme-christmas .particles { display: block; }
+        .theme-christmas .particle {
+            background: radial-gradient(circle, #FFFFFF 0%, #E0FFFF 50%, #FFD700 100%);
+            animation: snowFlake 8s ease-in-out infinite;
+        }
+        @keyframes snowFall {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 50px; }
+        }
+        @keyframes snowFlake {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        .theme-christmas .header h1 {
+            color: #DC143C !important;
+            font-size: 70px;
+            text-shadow: 0 0 10px #FFD700;
+            animation: twinkle 2s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { text-shadow: 0 0 10px #FFD700; }
+            100% { text-shadow: 0 0 20px #FFD700, 0 0 30px #DC143C; }
+        }
+        .theme-christmas .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 30px;
+        }
+        .theme-christmas .header {
+            margin-bottom: 40px;
+        }
+        .theme-christmas .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        .theme-christmas .utilities-section {
+            margin-top: 70px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .theme-christmas .card-section, .theme-christmas .form-section, .theme-christmas .utilities-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #DC143C;
+            border-radius: 30px;
+        }
+        .theme-christmas .virtual-card {
+            background: rgba(220, 20, 60, 0.1);
+            border: 2px solid #DC143C;
+        }
+        .theme-christmas .btn-activate, .theme-christmas .btn-sync, .theme-christmas .util-btn {
+            background: #DC143C;
+            color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .theme-christmas .floating-btn {
+            background: #228B22;
+        }
+        .theme-christmas .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #DC143C;
+            border-radius: 30px;
+        }
+        .theme-space {
+            font-family: 'Orbitron', sans-serif !important;
+            background: linear-gradient(135deg, #000000, #191970, #4169E1) !important;
+            color: #00FFFF !important;
+            animation: stars 5s ease-in-out infinite;
+        }
+        .theme-space .particles { display: block; }
+        .theme-space .particle {
+            background: radial-gradient(circle, #FFFFFF 0%, #00FFFF 50%, #4169E1 100%);
+            animation: orbit 6s linear infinite;
+        }
+        @keyframes stars {
+            0%, 100% { background-position: 0 0; }
+            50% { background-position: 50px 50px; }
+        }
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+        }
+        .theme-space .header h1 {
+            color: #00FFFF !important;
+            font-size: 75px;
+            text-shadow: 0 0 15px #00FFFF;
+            animation: pulse 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        .theme-space .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            padding: 70px;
+        }
+        .theme-space .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .theme-space .content {
+            display: contents;
+        }
+        .theme-space .utilities-section {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .theme-space .card-section, .theme-space .form-section, .theme-space .utilities-section {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #00FFFF;
+            border-radius: 25px;
+        }
+        .theme-space .virtual-card {
+            background: rgba(25, 25, 112, 0.8);
+            border: 2px solid #00FFFF;
+        }
+        .theme-space .btn-activate, .theme-space .btn-sync, .theme-space .util-btn {
+            background: #00FFFF;
+            color: #000000;
+            border-radius: 25px;
+        }
+        .theme-space .floating-btn {
+            background: #4169E1;
+        }
+        .theme-space .modal-content {
+            background: rgba(25, 25, 112, 0.9);
+            border-color: #00FFFF;
+            border-radius: 25px;
+        }
     </style>
 </head>
 <body>
@@ -572,6 +1269,22 @@
         <div class="modal-content">
             <h2>Ajustes</h2>
             <div class="form-group">
+                <label for="theme-select">Tema</label>
+                <select id="theme-select" class="form-control">
+                    <option value="default">Predeterminado</option>
+                    <option value="hacker">Hacker</option>
+                    <option value="chica">Chica</option>
+                    <option value="hombre">Hombre</option>
+                    <option value="juegos">Juegos</option>
+                    <option value="minecraft">Minecraft</option>
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="nature">Nature</option>
+                    <option value="halloween">Halloween</option>
+                    <option value="christmas">Christmas</option>
+                    <option value="space">Space</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="bg-color">Color de fondo</label>
                 <input type="color" id="bg-color" class="form-control">
             </div>
@@ -642,6 +1355,9 @@
                 document.getElementById('bg-color').value = localStorage.getItem('bgColor') || '#000000';
                 document.getElementById('text-color').value = localStorage.getItem('textColor') || '#FFFFFF';
                 document.getElementById('bg-image').value = localStorage.getItem('bgImage') || '';
+                document.getElementById('theme-select').value = localStorage.getItem('theme') || 'default';
+                applyTheme(localStorage.getItem('theme') || 'default');
+                applySettings();
             }
         });
         document.getElementById('login-btn').addEventListener('click', function() {
@@ -737,16 +1453,107 @@
             }
         });
         document.getElementById('save-settings').addEventListener('click', function() {
+            const theme = document.getElementById('theme-select').value;
             const bgColor = document.getElementById('bg-color').value;
             const textColor = document.getElementById('text-color').value;
             const bgImage = document.getElementById('bg-image').value;
+            localStorage.setItem('theme', theme);
             localStorage.setItem('bgColor', bgColor);
             localStorage.setItem('textColor', textColor);
             localStorage.setItem('bgImage', bgImage);
+            applyTheme(theme);
             applySettings();
             document.getElementById('settings-modal').style.display = 'none';
             alert('Ajustes guardados');
         });
+        function playThemeSound(theme) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+            switch(theme) {
+                case 'hacker':
+                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                    oscillator.type = 'sawtooth';
+                    break;
+                case '8bit':
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+                    oscillator.type = 'square';
+                    break;
+                case 'profesional':
+                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
+                    oscillator.type = 'sine';
+                    break;
+                case 'chica':
+                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime); // E5
+                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
+                    oscillator.type = 'triangle';
+                    break;
+                case 'hombre':
+                    oscillator.frequency.setValueAtTime(220, audioContext.currentTime); // A3
+                    oscillator.type = 'sawtooth';
+                    break;
+                case 'juegos':
+                    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
+                    oscillator.type = 'square';
+                    break;
+                case 'minecraft':
+                    oscillator.frequency.setValueAtTime(330, audioContext.currentTime); // E4
+                    oscillator.frequency.setValueAtTime(262, audioContext.currentTime + 0.2); // C4
+                    oscillator.type = 'triangle';
+                    break;
+                case 'cyberpunk':
+                    oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(660, audioContext.currentTime + 0.1);
+                    oscillator.type = 'sawtooth';
+                    break;
+                case 'retro':
+                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(554, audioContext.currentTime + 0.1);
+                    oscillator.type = 'sine';
+                    break;
+                case 'nature':
+                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.2);
+                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.4);
+                    oscillator.type = 'sine';
+                    break;
+                case 'halloween':
+                    oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(165, audioContext.currentTime + 0.3);
+                    oscillator.type = 'sawtooth';
+                    break;
+                case 'christmas':
+                    oscillator.frequency.setValueAtTime(392, audioContext.currentTime); // G4
+                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime + 0.2); // C5
+                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.4); // E5
+                    oscillator.type = 'triangle';
+                    break;
+                case 'space':
+                    oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(660, audioContext.currentTime + 0.2);
+                    oscillator.type = 'square';
+                    break;
+                default:
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.type = 'sine';
+            }
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        function applyTheme(theme) {
+            document.body.className = document.body.className.replace(/theme-\w+/g, '');
+            if (theme !== 'default') {
+                document.body.classList.add('theme-' + theme);
+            }
+            playThemeSound(theme);
+        }
         function applySettings() {
             const bgColor = localStorage.getItem('bgColor');
             const textColor = localStorage.getItem('textColor');
