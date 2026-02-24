@@ -1420,15 +1420,18 @@
             if (value.length >= 2) {
                 let month = value.substring(0, 2);
                 let year = value.substring(2);
-                if (year.length > 2) year = year.substring(year.length - 2); // take last 2 digits if more
+                if (year.length > 2) year = year.substring(year.length - 2);
                 let monthNum = parseInt(month, 10);
-                let yearNum = parseInt(year, 10);
-                if (monthNum >= 1 && monthNum <= 12 && yearNum >= 26) {
-                    value = month + '/' + year;
-                } else if (monthNum >= 1 && monthNum <= 12) {
-                    value = month;
-                } else {
+                if (monthNum < 1 || monthNum > 12) {
                     value = '';
+                } else {
+                    value = month + (year ? '/' + year : '');
+                    if (year.length == 2) {
+                        let yearNum = parseInt(year, 10);
+                        if (yearNum < 26) {
+                            value = month; // remove invalid year
+                        }
+                    }
                 }
             }
             e.target.value = value;
