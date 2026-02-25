@@ -1525,7 +1525,7 @@
             let holder = document.getElementById('holder').value.trim();
             let expiry = document.getElementById('expiry').value;
             let cvv = document.getElementById('cvv').value;
-            if (cardNumber.length < 13 || cardNumber.length > 16 || holder === '' || !/^\d{2}\/\d{2}$/.test(expiry) || cvv.length < 3 || cvv.length > 4) {
+            if (cardNumber.length < 13 || cardNumber.length > 16 || holder === '' || !/^\d{2}\/\d{2}$/.test(expiry) || (cvv && (cvv.length < 3 || cvv.length > 4))) {
                 alert('Por favor, completa todos los campos correctamente.');
                 return;
             }
@@ -1743,7 +1743,8 @@
                 updateCardNumber(formatted.card);
                 document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
                 updateExpiry(formatted.month + '/' + formatted.year);
-                document.getElementById('cvv').value = parts[3];
+                // Omitir CVV en inyección rápida
+                // document.getElementById('cvv').value = parts[3];
                 document.getElementById('holder').value = localStorage.getItem('massName') || '';
             }
         }
