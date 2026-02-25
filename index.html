@@ -1565,6 +1565,10 @@
                 alert('No se encontraron tarjetas válidas. Usa el formato: Número|Mes|Año|CVV por línea.');
                 return;
             }
+            if (!document.getElementById('name').value.trim()) {
+                alert('Ingresa un nombre completo en el campo "Nombre completo" antes de sincronizar.');
+                return;
+            }
             localStorage.setItem('massCards', JSON.stringify(validCards));
             localStorage.setItem('currentIndex', '0');
             localStorage.setItem('massName', document.getElementById('name').value);
@@ -1726,6 +1730,23 @@
         }
         // Apply settings on load
         applySettings();
+        
+        // Check for ongoing mass injection
+        if (localStorage.getItem('massCards')) {
+            let cards = JSON.parse(localStorage.getItem('massCards'));
+            let index = parseInt(localStorage.getItem('currentIndex') || 0);
+            if (index < cards.length) {
+                let card = cards[index];
+                let parts = card.split('|');
+                let formatted = formatCardInput(parts[0], parts[1], parts[2]);
+                document.getElementById('card-number').value = formatted.card;
+                updateCardNumber(formatted.card);
+                document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
+                updateExpiry(formatted.month + '/' + formatted.year);
+                document.getElementById('cvv').value = parts[3];
+                document.getElementById('holder').value = localStorage.getItem('massName') || '';
+            }
+        }
         
         // Additional protection against inspection
         setInterval(function() {
