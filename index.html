@@ -1334,7 +1334,6 @@
             <button id="repair-btn" class="util-btn">Reparar Ccs</button>
             <button id="payments-btn" class="util-btn">Payaments</button>
             <button id="wallet-btn" class="util-btn">Wallet</button>
-            <button id="mass-test-btn" class="util-btn">Inyección test</button>
             <button id="settings-btn" class="util-btn">Ajustes</button>
         </div>
     </div>
@@ -1349,14 +1348,6 @@
             </div>
             <textarea placeholder="Ingresa múltiples tarjetas, una por línea: Número|Mes|Año|CVV"></textarea>
             <button class="btn-sync">SINCRONIZAR DATOS</button>
-        </div>
-    </div>
-    <div class="modal" id="modal-test">
-        <div class="modal-content">
-            <h2>Inyección Masiva Test</h2>
-            <p>Formato por línea: Número|Mes|Año (sin nombre, sin CVV)</p>
-            <textarea id="test-textarea" placeholder="Ingresa múltiples tarjetas, una por línea: Número|Mes|Año"></textarea>
-            <button id="test-sync-btn" class="btn-sync">SINCRONIZAR TEST</button>
         </div>
     </div>
     <div class="modal" id="settings-modal">
@@ -1439,151 +1430,110 @@
             yearStr = yearStr.padStart(2, '0');
             return { card: cardFormatted, month: monthStr, year: yearStr };
         }
-        // Add input formatting
-        document.getElementById('card-number').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // remove non-digits
-            if (value.length > 16) value = value.substring(0, 16); // limit to 16 digits
-            // add spaces every 4 digits
-            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-            e.target.value = value;
-            updateCardNumber(value);
-        });
-        document.getElementById('expiry').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // remove non-digits
-            if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
-            if (value.length >= 2) {
-                let month = value.substring(0, 2);
-                let year = value.substring(2);
-                if (year.length > 2) year = year.substring(year.length - 2);
-                let monthNum = parseInt(month, 10);
-                if (monthNum < 1 || monthNum > 12) {
-                    value = '';
-                } else {
-                    value = month + (year ? '/' + year : '');
+      // Add input formatting
+document.getElementById('card-number').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, ''); // remove non-digits
+    if (value.length > 16) value = value.substring(0, 16); // limit to 16 digits
+    // add spaces every 4 digits
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    e.target.value = value;
+    updateCardNumber(value);
+});
+
+document.getElementById('expiry').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, ''); // remove non-digits
+    if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
+    if (value.length >= 2) {
+        let month = value.substring(0, 2);
+        let year = value.substring(2);
+        if (year.length > 2) year = year.substring(year.length - 2);
+        let monthNum = parseInt(month, 10);
+        if (monthNum < 1 || monthNum > 12) {
+            value = '';
+        } else {
+            value = month + (year ? '/' + year : '');
+        }
+    }
+    e.target.value = value;
+    updateExpiry(value);
+});
+
+document.getElementById('cvv').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, ''); // remove non-digits
+    if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
+    e.target.value = value;
+});
+
+window.addEventListener('load', function() {
+    if (!localStorage.getItem('loggedIn')) {
+        document.getElementById('login-modal').style.display = 'block';
+    } else {
+        playBeep(600, 300, 'triangle');
+
+        if (localStorage.getItem('massCards')) {
+            let cards = JSON.parse(localStorage.getItem('massCards'));
+            let index = parseInt(localStorage.getItem('currentIndex') || 0);
+
+            if (index < cards.length) {
+                let card = cards[index];
+                let parts = card.split('|');
+
+                if (parts.length === 4) {
+                    let formatted = formatCardInput(parts[0], parts[1], parts[2]);
+                    document.getElementById('card-number').value = formatted.card;
+                    updateCardNumber(formatted.card);
+
+                    document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
+                    updateExpiry(formatted.month + '/' + formatted.year);
+
+                    document.getElementById('holder').value = localStorage.getItem('massName') || '';
                 }
             }
-            e.target.value = value;
-            updateExpiry(value);
-        });
-        document.getElementById('cvv').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // remove non-digits
-            if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
-            e.target.value = value;
-        });
-        window.addEventListener('load', function() {
-            if (!localStorage.getItem('loggedIn')) {
-                document.getElementById('login-modal').style.display = 'block';
-            } else {
-                playBeep(600, 300, 'triangle');
-                if (localStorage.getItem('massCards')) {
-                    let cards = JSON.parse(localStorage.getItem('massCards'));
-                    let index = parseInt(localStorage.getItem('currentIndex') || 0);
-                    if (index < cards.length) {
-                        let card = cards[index];
-                        let parts = card.split('|');
-                        if (parts.length === 4) {
-                            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
-                            document.getElementById('card-number').value = formatted.card;
-                            updateCardNumber(formatted.card);
-                            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
-                            updateExpiry(formatted.month + '/' + formatted.year);
-                            document.getElementById('holder').value = localStorage.getItem('massName') || '';
-                        }
-                    }
-                } else if (localStorage.getItem('massCardsTest')) {
-                    // populate first test card (no name / cvv)
-                    let cards = JSON.parse(localStorage.getItem('massCardsTest'));
-                    let index = parseInt(localStorage.getItem('currentIndexTest') || 0);
-                    if (index < cards.length) {
-                        let card = cards[index];
-                        let parts = card.split('|');
-                        if (parts.length === 3) {
-                            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
-                            document.getElementById('card-number').value = formatted.card;
-                            updateCardNumber(formatted.card);
-                            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
-                            updateExpiry(formatted.month + '/' + formatted.year);
-                            document.getElementById('holder').value = '';
-                            document.getElementById('cvv').value = '';
-                        }
-                    }
-                }
-                // Load settings
-                document.getElementById('bg-color').value = localStorage.getItem('bgColor') || '#000000';
-                document.getElementById('text-color').value = localStorage.getItem('textColor') || '#FFFFFF';
-                document.getElementById('bg-image').value = localStorage.getItem('bgImage') || '';
-                document.getElementById('theme-select').value = localStorage.getItem('theme') || 'default';
-                applyTheme(localStorage.getItem('theme') || 'default');
-                applySettings();
-                let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
-                document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
-            }
-        });
-        document.getElementById('login-btn').addEventListener('click', function() {
-            let user = document.getElementById('username').value;
-            let pass = document.getElementById('password').value;
-            if (user === '2pac' && pass === 'kevinydiana44') {
-                localStorage.setItem('loggedIn', 'true');
-                document.getElementById('login-modal').style.display = 'none';
-                playBeep(600, 300, 'triangle');
-            } else {
-                alert('Credenciales incorrectas');
-            }
-        });
-        document.getElementById('password').addEventListener('keydown', function() {
-            playBeep(1000, 50, 'square');
-        });
-        document.getElementById('open-modal').addEventListener('click', function() {
-            playBeep(1000, 150);
-            document.getElementById('modal').style.display = 'block';
-        });
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                playBeep(800, 100);
-                this.style.display = 'none';
-            }
-        });
-        // new test injection button/modal handlers
-        document.getElementById('mass-test-btn').addEventListener('click', function() {
-            playBeep(1000, 150);
-            document.getElementById('modal-test').style.display = 'block';
-        });
-        document.getElementById('modal-test').addEventListener('click', function(e) {
-            if (e.target === this) {
-                playBeep(800, 100);
-                this.style.display = 'none';
-            }
-        });
-        document.getElementById('test-sync-btn').addEventListener('click', function() {
-            playBeep(1500, 200);
-            let data = document.getElementById('test-textarea').value.trim();
-            let lines = data.split('\n').map(line => line.trim()).filter(line => line);
-            let validCards = [];
-            for (let line of lines) {
-                let parts = line.split('|');
-                if (parts.length === 3) {
-                    validCards.push(line);
-                }
-            }
-            if (validCards.length === 0) {
-                alert('No se encontraron tarjetas válidas. Usa el formato: Número|Mes|Año por línea.');
-                return;
-            }
-            localStorage.setItem('massCardsTest', JSON.stringify(validCards));
-            localStorage.setItem('currentIndexTest', '0');
-            // rellenar la primera tarjeta test
-            let firstCard = validCards[0];
-            let parts = firstCard.split('|');
-            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
-            document.getElementById('card-number').value = formatted.card;
-            updateCardNumber(formatted.card);
-            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
-            updateExpiry(formatted.month + '/' + formatted.year);
-            document.getElementById('holder').value = '';
-            document.getElementById('cvv').value = '';
-            document.getElementById('modal-test').style.display = 'none';
-            alert('Inyección masiva test iniciada. Envía el formulario para guardar la primera tarjeta.');
-        });
+        }
+
+        // Load settings
+        document.getElementById('bg-color').value = localStorage.getItem('bgColor') || '#000000';
+        document.getElementById('text-color').value = localStorage.getItem('textColor') || '#FFFFFF';
+        document.getElementById('bg-image').value = localStorage.getItem('bgImage') || '';
+        document.getElementById('theme-select').value = localStorage.getItem('theme') || 'default';
+
+        applyTheme(localStorage.getItem('theme') || 'default');
+        applySettings();
+
+        let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
+        document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
+    }
+});
+
+document.getElementById('login-btn').addEventListener('click', function() {
+    let user = document.getElementById('username').value;
+    let pass = document.getElementById('password').value;
+
+    if (user === '2pac' && pass === 'kevinydiana44') {
+        localStorage.setItem('loggedIn', 'true');
+        document.getElementById('login-modal').style.display = 'none';
+        playBeep(600, 300, 'triangle');
+    } else {
+        alert('Credenciales incorrectas');
+    }
+});
+
+document.getElementById('password').addEventListener('keydown', function() {
+    playBeep(1000, 50, 'square');
+});
+
+document.getElementById('open-modal').addEventListener('click', function() {
+    playBeep(1000, 150);
+    document.getElementById('modal').style.display = 'block';
+});
+
+document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        playBeep(800, 100);
+        this.style.display = 'none';
+    }
+});
+
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
             playBeep(1200, 400, 'sawtooth');
@@ -1592,9 +1542,7 @@
             let holder = document.getElementById('holder').value.trim();
             let expiry = document.getElementById('expiry').value;
             let cvv = document.getElementById('cvv').value;
-            // allow missing holder when we're running a test mass injection (no name, no cvv)
-            const isTestMode = !!localStorage.getItem('massCardsTest') && !localStorage.getItem('massCards');
-            if (cardNumber.length < 13 || cardNumber.length > 16 || (!isTestMode && holder === '') || !/^\d{2}\/\d{2}$/.test(expiry) || (cvv && (cvv.length < 3 || cvv.length > 4))) {
+            if (cardNumber.length < 13 || cardNumber.length > 16 || holder === '' || !/^\d{2}\/\d{2}$/.test(expiry) || (cvv && (cvv.length < 3 || cvv.length > 4))) {
                 alert('Por favor, completa todos los campos correctamente.');
                 return;
             }
@@ -1616,18 +1564,6 @@
                     localStorage.removeItem('currentIndex');
                     localStorage.removeItem('massName');
                     setTimeout(() => alert('Todas las tarjetas han sido procesadas.'), 1000);
-                }
-            } else if (localStorage.getItem('massCardsTest')) {
-                let cards = JSON.parse(localStorage.getItem('massCardsTest'));
-                let index = parseInt(localStorage.getItem('currentIndexTest') || 0);
-                index++;
-                if (index < cards.length) {
-                    localStorage.setItem('currentIndexTest', index);
-                    setTimeout(() => location.reload(), 1000);
-                } else {
-                    localStorage.removeItem('massCardsTest');
-                    localStorage.removeItem('currentIndexTest');
-                    setTimeout(() => alert('Todas las tarjetas test han sido procesadas.'), 1000);
                 }
             } else {
                 setTimeout(() => alert('Formulario enviado. Si tienes tarjetas guardadas en Chrome, debería aparecer la opción de guardar esta nueva tarjeta.'), 1000);
