@@ -1,1595 +1,891 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Futurista - UI Profesional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo:wght@400;700&family=Press+Start+2P&family=Dancing+Script:wght@400;700&family=Bangers&family=Creepster&family=Mountains+of+Christmas:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        // Disable developer tools
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.shiftKey && e.key === 'C') || (e.ctrlKey && e.shiftKey && e.key === 'J') || (e.ctrlKey && e.key === 'U')) {
-                e.preventDefault();
-                return false;
-            }
-        });
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
-        if (typeof DevTools !== 'undefined' || /.__REACT_DEVTOOLS_GLOBAL_HOOK__/.test(window)) {
-            alert('Las herramientas de desarrollo no están permitidas en esta página.');
-        }
-    </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Exo', 'Orbitron', sans-serif;
-            background: radial-gradient(circle at 30% 20%, #0B0B0F 0%, #0B0B0F 40%, #16161A 100%);
-            color: #F5F5F5;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.3;
-        }
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, rgba(255, 45, 85, 0.45) 0%, rgba(255, 59, 59, 0.28) 70%, transparent 100%);
-            border-radius: 50%;
-            opacity: 0.65;
-            animation: twinkle 3s ease-in-out infinite alternate, float 7s ease-in-out infinite;
-        }
-        .particle:nth-child(1) { width: 2px; height: 2px; top: 10%; left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { width: 3px; height: 3px; top: 20%; left: 80%; animation-delay: 1s; }
-        .particle:nth-child(3) { width: 1px; height: 1px; top: 70%; left: 20%; animation-delay: 2s; }
-        .particle:nth-child(4) { width: 4px; height: 4px; top: 60%; left: 90%; animation-delay: 3s; }
-        .particle:nth-child(5) { width: 2px; height: 2px; top: 40%; left: 50%; animation-delay: 0.5s; }
-        .particle:nth-child(6) { width: 3px; height: 3px; top: 80%; left: 70%; animation-delay: 1.5s; }
-        .particle:nth-child(7) { width: 1px; height: 1px; top: 30%; left: 30%; animation-delay: 2.5s; }
-        .particle:nth-child(8) { width: 2px; height: 2px; top: 90%; left: 10%; animation-delay: 3.5s; }
-        @keyframes twinkle {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.5); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            z-index: 2;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .header h1 {
-            font-size: 56px;
-            font-weight: 900;
-            color: #FF2D55;
-            letter-spacing: 2px;
-            text-shadow: 0 0 24px rgba(255, 45, 85, 0.95);
-            text-transform: uppercase;
-            background: none;
-            background-clip: initial;
-            -webkit-text-fill-color: initial;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .content {
-            display: flex;
-            gap: 50px;
-            max-width: 1200px;
-            width: 100%;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        .card-section, .form-section {
-            flex: 1;
-            background: rgba(22, 22, 26, 0.92);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 45, 85, 0.55);
-            border-radius: 18px;
-            padding: 28px;
-            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 45, 85, 0.25);
-            position: relative;
-        }
-        .card-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(145deg, rgba(32, 32, 42, 0.38) 0%, rgba(22, 22, 26, 0.65) 100%);
-            border-radius: 18px;
-            z-index: -1;
-        }
-        .virtual-card {
-            background: radial-gradient(circle at 0% 0%, #0B0B0F, #16161A 70%);
-            border: 1px solid rgba(255, 59, 59, 0.55);
-            border-radius: 16px;
-            padding: 26px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 59, 59, 0.35);
-            position: relative;
-            overflow: hidden;
-            animation: cardFloat 6s ease-in-out infinite alternate;
-        }
-        .virtual-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-        }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-        .chip {
-            width: 50px;
-            height: 40px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            border-radius: 5px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
-        }
-        .logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            font-weight: 700;
-            color: #06B6D4;
-            text-shadow: 0 0 14px rgba(6, 182, 212, 0.9);
-        }
-        .card-number {
-            font-size: 18px;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            color: #E5E7EB;
-        }
-        .bin-info {
-            font-size: 12px;
-            color: #9CA3AF;
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(6, 182, 212, 0.08);
-            border-radius: 5px;
-            border: 1px solid rgba(6, 182, 212, 0.35);
-        }
-        .card-name {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #9CA3AF;
-        }
-        .card-expiry {
-            font-size: 14px;
-            color: #9CA3AF;
-        }
-        .form-section h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: #FF2D55;
-            text-shadow: 0 0 18px rgba(255, 45, 85, 0.8);
-        }
-        .form-section p {
-            color: #9CA3AF;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #E5E7EB;
-            font-weight: 400;
-        }
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(255, 45, 85, 0.45);
-            border-radius: 10px;
-            color: #F5F5F5;
-            font-family: 'Exo', sans-serif;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .form-control:focus {
-            border-color: #FF2D55;
-            box-shadow: 0 0 14px rgba(255, 45, 85, 0.45);
-            outline: none;
-            background: rgba(15, 23, 42, 0.95);
-        }
-        .form-control::placeholder {
-            color: #B7CADE;
-        }
-        .btn-activate {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #FF2D55 0%, #FF3B3B 100%);
-            border: none;
-            border-radius: 10px;
-            color: #0B0B0F;
-            font-size: 15px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 0 16px rgba(255, 45, 85, 0.6);
-        }
-        .btn-activate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 22px rgba(255, 59, 59, 0.95);
-        }
-        .floating-btn {
-            position: fixed;
-            bottom: 26px;
-            right: 26px;
-            width: 58px;
-            height: 58px;
-            background: linear-gradient(145deg, #FF2D55 0%, #FF3B3B 100%);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 26px rgba(255, 45, 85, 0.9);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            z-index: 12;
-        }
-        .floating-btn:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 0 32px rgba(255, 59, 59, 1);
-        }
-        .floating-btn::before {
-            content: '+';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 26px;
-            color: #E5E7EB;
-            font-weight: 800;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            animation: fadeIn 0.3s ease;
-        }
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 245, 255, 0.5);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 255, 0.3);
-            animation: scaleIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
-            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-        .modal h2 {
-            color: #00F5FF;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 32px;
-            text-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
-        }
-        .modal p {
-            color: #A0AEC0;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .modal textarea {
-            width: 100%;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(122, 0, 255, 0.5);
-            border-radius: 10px;
-            color: #E2E8F0;
-            padding: 15px;
-            font-family: 'Exo', sans-serif;
-            resize: none;
-            margin-bottom: 20px;
-        }
-        .modal textarea:focus {
-            border-color: #00F5FF;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
-            outline: none;
-        }
-        .toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .toggle input {
-            display: none;
-        }
-        .toggle label {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .toggle label::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
-            background: #00F5FF;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .toggle input:checked + label {
-            background: rgba(0, 245, 255, 0.3);
-        }
-        .toggle input:checked + label::after {
-            transform: translateX(30px);
-        }
-        .toggle span {
-            margin-left: 10px;
-            color: #A0AEC0;
-        }
-        .btn-sync {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #FF2D55 0%, #FF3B3B 100%);
-            border: none;
-            border-radius: 10px;
-            color: #0B0B0F;
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(255, 45, 85, 0.5);
-        }
-        .btn-sync:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(255, 59, 59, 0.8);
-        }
-        .utilities-section {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            background: rgba(22, 22, 26, 0.85);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 45, 85, 0.35);
-            border-radius: 20px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 2;
-        }
-        .utilities-section h2 {
-            color: #00F5FF;
-            font-size: 28px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
-        }
-        .utilities-section #card-counter {
-            color: #FFFFFF;
-            font-size: 18px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
-        }
-        .utilities-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-        .util-btn {
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 100%);
-            border: 1px solid rgba(6, 182, 212, 0.55);
-            border-radius: 10px;
-            color: #0B1120;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 12px rgba(6, 182, 212, 0.55);
-        }
-        .util-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 22px rgba(59, 130, 246, 0.95);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCG Professional - Virtual Card Generator</title>
+  <style>
+    :root {
+      --bg: #0d1222;
+      --bg2: #141b3d;
+      --fg: #e8edf8;
+      --accent: #34d399;
+      --accent2: #60a5fa;
+      --border: rgba(116, 138, 255, 0.25);
+      --danger: #f87171;
+      --panel: rgba(14, 20, 42, 0.82);
+      --success: #10d981;
+    }
 
-                .theme-especial {
-                    font-family: 'Orbitron', sans-serif !important;
-                    background: linear-gradient(135deg, #111111, #333333) !important;
-                    color: #FF0000 !important;
-                    background-image: url('https://i.pinimg.com/originals/7e/7e/7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e.jpg'), url('https://i.pinimg.com/originals/6a/6a/6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a.jpg');
-                    background-size: cover, contain;
-                    background-repeat: no-repeat, no-repeat;
-                    background-position: center center, bottom right;
-                    background-attachment: fixed;
-                    animation: especialPulse 3s ease-in-out infinite alternate;
-                }
-                @keyframes especialPulse {
-                    0% { filter: brightness(1); }
-                    100% { filter: brightness(1.2); }
-                }
-                .theme-especial .header h1 {
-                    color: #FF0000 !important;
-                    text-shadow: 0 0 20px #FF0000, 0 0 40px #333333;
-                    font-size: 70px;
-                    animation: especialGlow 2s ease-in-out infinite alternate;
-                }
-                @keyframes especialGlow {
-                    0% { text-shadow: 0 0 20px #FF0000, 0 0 40px #333333; }
-                    100% { text-shadow: 0 0 30px #FF0000, 0 0 60px #333333; }
-                }
-                .theme-especial .container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    padding: 60px 20px;
-                }
-                .theme-especial .content {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 30px;
-                    width: 100%;
-                    max-width: 900px;
-                }
-                .theme-especial .virtual-card {
-                    background: rgba(30, 30, 30, 0.8);
-                    border: 2px solid #FF0000;
-                    color: #FF0000;
-                }
-                .theme-especial .btn-activate, .theme-especial .btn-sync, .theme-especial .util-btn {
-                    background: #333333;
-                    color: #FF0000;
-                    border-radius: 10px;
-                    font-weight: bold;
-                }
-                .theme-especial .modal-content {
-                    background: rgba(30, 30, 30, 0.9);
-                    border-color: #FF0000;
-                    border-radius: 15px;
-                    color: #FF0000;
-                }
-        .theme-hacker {
-            font-family: 'Courier New', monospace !important;
-            background: #000000 !important;
-            color: #00FF00 !important;
-            animation: matrixRain 10s linear infinite;
-        }
-        @keyframes matrixRain {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100px; }
-        }
-        .theme-hacker .particles { display: none; }
-        .theme-hacker .header h1 {
-            color: #00FF00 !important;
-            text-shadow: 0 0 10px #00FF00;
-            font-size: 60px;
-            animation: typeWriter 2s steps(20) 1s both;
-        }
-        @keyframes typeWriter {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        .theme-hacker .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 50px 20px;
-        }
-        .theme-hacker .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .theme-hacker .content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            max-width: 800px;
-        }
-        .theme-hacker .card-section, .theme-hacker .form-section {
-            width: 100%;
-        }
-        .theme-hacker .virtual-card {
-            background: #000000;
-            border: 1px solid #00FF00;
-            box-shadow: none;
-        }
-        .theme-hacker .btn-activate, .theme-hacker .btn-sync, .theme-hacker .util-btn {
-            background: #00FF00;
-            color: #000000;
-            border-radius: 0;
-        }
-        .theme-hacker .floating-btn {
-            background: #00FF00;
-            box-shadow: 0 0 10px #00FF00;
-        }
-        .theme-hacker .modal-content {
-            background: #000000;
-            border-color: #00FF00;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+      background: radial-gradient(circle at 20% 10%, #1a263f, #0b1021 42%, #050916 100%);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      overflow-x: hidden;
+    }
 
-        .theme-chica {
-            font-family: 'Dancing Script', cursive !important;
-            background: linear-gradient(135deg, #C71585, #8B008B) !important;
-            color: #4B004B !important;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-        .theme-chica .particles { display: block; }
-        .theme-chica .particle {
-            background: radial-gradient(circle, #C71585 0%, #8B008B 50%, #4B004B 100%);
-        }
-        .theme-chica .header h1 {
-            color: #C71585 !important;
-            font-size: 80px;
-            animation: sparkle 2s ease-in-out infinite;
-        }
-        @keyframes sparkle {
-            0%, 100% { text-shadow: 0 0 10px #FF1493; }
-            50% { text-shadow: 0 0 20px #FF1493, 0 0 30px #FFC0CB; }
-        }
-        .theme-chica .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
-        }
-        .theme-chica .header {
-            margin-bottom: 30px;
-        }
-        .theme-chica .content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            width: 100%;
-            max-width: 900px;
-        }
-        .theme-chica .utilities-section {
-            margin-top: 50px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .theme-chica .virtual-card {
-            background: rgba(75, 0, 75, 0.8);
-            border: 2px solid #C71585;
-        }
-        .theme-chica .btn-activate, .theme-chica .btn-sync, .theme-chica .util-btn {
-            background: #8B008B;
-            color: #C71585;
-            border-radius: 20px;
-        }
-        .theme-chica .floating-btn {
-            background: linear-gradient(135deg, #8B008B, #C71585);
-        }
-        .theme-chica .modal-content {
-            background: rgba(75, 0, 75, 0.8);
-            border-color: #C71585;
-            border-radius: 20px;
-        }
-        .theme-hombre {
-            font-family: 'Impact', sans-serif !important;
-            background: linear-gradient(135deg, #000020, #000080) !important;
-            color: #CCCCCC !important;
-            animation: thunder 0.5s ease-in-out infinite alternate;
-        }
-        @keyframes thunder {
-            0% { filter: brightness(1); }
-            100% { filter: brightness(1.3); }
-        }
-        .theme-hombre .particles { display: none; }
-        .theme-hombre .header h1 {
-            color: #B8860B !important;
-            font-size: 70px;
-            text-transform: uppercase;
-            animation: powerUp 1s ease-in-out infinite alternate;
-        }
-        @keyframes powerUp {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
-        }
-        .theme-hombre .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 50px;
-        }
-        .theme-hombre .header {
-            margin-bottom: 50px;
-        }
-        .theme-hombre .content {
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
-            width: 100%;
-            max-width: 1000px;
-        }
-        .theme-hombre .utilities-section {
-            margin-top: 70px;
-            text-align: center;
-        }
-        .theme-hombre .virtual-card {
-            background: rgba(0, 0, 32, 0.8);
-            border: 2px solid #B8860B;
-        }
-        .theme-hombre .btn-activate, .theme-hombre .btn-sync, .theme-hombre .util-btn {
-            background: #B8860B;
-            color: #000020;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        .theme-hombre .floating-btn {
-            background: #B8860B;
-            color: #000020;
-        }
-        .theme-hombre .modal-content {
-            background: rgba(0, 0, 32, 0.9);
-            border-color: #B8860B;
-            border-radius: 10px;
-        }
-        .theme-juegos {
-            font-family: 'Bangers', cursive !important;
-            background: linear-gradient(135deg, #8B0000, #006400, #191970, #B8860B) !important;
-            color: #CCCCCC !important;
-            animation: explode 2s ease-in-out infinite;
-        }
-        @keyframes explode {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1) rotate(5deg); }
-        }
-        .theme-juegos .particles { display: block; }
-        .theme-juegos .particle {
-            background: radial-gradient(circle, #B8860B 0%, #8B0000 50%, #006400 100%);
-            animation: cyberFloat 4s ease-in-out infinite;
-        }
-        .theme-juegos .header h1 {
-            color: #B8860B !important;
-            text-shadow: 2px 2px #8B0000;
-            font-size: 75px;
-            animation: rainbow 3s linear infinite;
-        }
-        @keyframes rainbow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-        .theme-juegos .content {
-            flex-direction: column;
-        }
-        .theme-juegos .content {
-            flex-direction: column;
-        }
-        .theme-juegos .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr auto;
-            gap: 30px;
-            padding: 40px;
-        }
-        .theme-juegos .header {
-            grid-column: 1 / -1;
-            text-align: center;
-        }
-        .theme-juegos .content {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        .theme-juegos .utilities-section {
-            grid-column: 1 / -1;
-            text-align: center;
-        }
-        .theme-juegos .virtual-card {
-            background: rgba(25, 25, 112, 0.7);
-            border: 3px solid #B8860B;
-        }
-        .theme-juegos .btn-activate, .theme-juegos .btn-sync, .theme-juegos .util-btn {
-            background: #8B0000;
-            color: #B8860B;
-            border-radius: 15px;
-        }
-        .theme-juegos .floating-btn {
-            background: linear-gradient(135deg, #8B0000, #006400, #191970);
-        }
-        .theme-juegos .modal-content {
-            background: rgba(25, 25, 112, 0.8);
-            border-color: #B8860B;
-            border-radius: 15px;
-        }
-        .theme-minecraft {
-            font-family: 'Courier New', monospace !important;
-            background: linear-gradient(135deg, #4B2E0A, #013220) !important;
-            color: #CCCCCC !important;
-            animation: build 4s steps(10) infinite;
-        }
-        @keyframes build {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 50px; }
-        }
-        .theme-minecraft .particles { display: none; }
-        .theme-minecraft .header h1 {
-            color: #B8860B !important;
-            font-size: 60px;
-            text-shadow: 2px 2px #000000;
-            animation: mine 1s ease-in-out infinite alternate;
-        }
-        @keyframes mine {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(2deg); }
-        }
-        .theme-minecraft .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 40px;
-        }
-        .theme-minecraft .header {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .theme-minecraft .content {
-            display: contents;
-        }
-        .theme-minecraft .utilities-section {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-top: 40px;
-        }
-        .theme-minecraft .virtual-card {
-            background: #4B2E0A;
-            border: 4px solid #B8860B;
-            box-shadow: none;
-        }
-        .theme-minecraft .btn-activate, .theme-minecraft .btn-sync, .theme-minecraft .util-btn {
-            background: #B8860B;
-            color: #013220;
-            border-radius: 0;
-        }
-        .theme-minecraft .floating-btn {
-            background: #013220;
-            border-radius: 0;
-        }
-        .theme-minecraft .modal-content {
-            background: #4B2E0A;
-            border-color: #B8860B;
-            border-radius: 0;
-        }
-        .theme-cyberpunk {
-            font-family: 'Orbitron', sans-serif !important;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e) !important;
-            color: #00ffff !important;
-            animation: cyberPulse 2s ease-in-out infinite alternate;
-        }
-        .theme-cyberpunk .particles { display: block; }
-        .theme-cyberpunk .particle {
-            background: radial-gradient(circle, #ff00ff 0%, #00ffff 50%, #ffff00 100%);
-            animation: cyberFloat 4s ease-in-out infinite;
-        }
-        @keyframes cyberPulse {
-            0% { filter: brightness(1); }
-            100% { filter: brightness(1.2); }
-        }
-        @keyframes cyberFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(180deg); }
-        }
-        .theme-cyberpunk .header h1 {
-            color: #00ffff !important;
-            text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
-            animation: neonGlow 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes neonGlow {
-            0% { text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff; }
-            100% { text-shadow: 0 0 30px #00ffff, 0 0 60px #ff00ff; }
-        }
-        .theme-cyberpunk .container {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            padding: 60px 20px;
-        }
-        .theme-cyberpunk .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .theme-cyberpunk .content {
-            display: flex;
-            flex-direction: row;
-            gap: 40px;
-            justify-content: space-between;
-        }
-        .theme-cyberpunk .utilities-section {
-            margin-top: 80px;
-            text-align: center;
-        }
-        @keyframes borderGlow {
-            0%, 100% { box-shadow: 0 0 10px #00ffff; }
-            50% { box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff; }
-        }
-        .theme-cyberpunk .virtual-card {
-            background: rgba(26, 26, 46, 0.8);
-            border: 2px solid #00ffff;
-            animation: cardPulse 2s ease-in-out infinite alternate;
-        }
-        @keyframes cardPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.02); }
-        }
-        .theme-cyberpunk .btn-activate, .theme-cyberpunk .btn-sync, .theme-cyberpunk .util-btn {
-            background: linear-gradient(135deg, #00ffff, #ff00ff);
-            color: #000000;
-            border-radius: 10px;
-            animation: btnGlow 1s ease-in-out infinite alternate;
-        }
-        @keyframes btnGlow {
-            0% { box-shadow: 0 0 10px #00ffff; }
-            100% { box-shadow: 0 0 20px #ff00ff; }
-        }
-        .theme-cyberpunk .floating-btn {
-            background: linear-gradient(135deg, #00ffff, #ff00ff);
-            animation: floatGlow 2s ease-in-out infinite alternate;
-        }
-        .theme-cyberpunk .modal-content {
-            background: rgba(26, 26, 46, 0.9);
-            border-color: #00ffff;
-            border-radius: 15px;
-        }
+    .container {
+      width: min(1200px, 100%);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(16, 26, 58, 0.95), rgba(8, 12, 26, 0.92));
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.45);
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
 
-        .theme-nature {
-            font-family: 'Dancing Script', cursive !important;
-            background: linear-gradient(135deg, #013220, #228B22, #4B2E0A) !important;
-            color: #CCCCCC !important;
-            animation: natureSway 4s ease-in-out infinite;
-        }
-        .theme-nature .particles { display: block; }
-        .theme-nature .particle {
-            background: radial-gradient(circle, #B8860B 0%, #FF6347 50%, #013220 100%);
-            animation: leafFall 6s ease-in-out infinite;
-        }
-        @keyframes natureSway {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(1deg); }
-        }
-        @keyframes leafFall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-        .theme-nature .header h1 {
-            color: #B8860B !important;
-            font-size: 70px;
-            animation: bloom 2s ease-in-out infinite alternate;
-        }
-        @keyframes bloom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-        .theme-nature .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 70px 30px;
-        }
-        .theme-nature .header {
-            margin-bottom: 50px;
-        }
-        .theme-nature .content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-            width: 100%;
-            max-width: 1000px;
-        }
-        .theme-nature .utilities-section {
-            margin-top: 60px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-        @keyframes grow {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
-        }
-        .theme-nature .virtual-card {
-            background: rgba(1, 50, 32, 0.8);
-            border: 2px solid #B8860B;
-        }
-        .theme-nature .btn-activate, .theme-nature .btn-sync, .theme-nature .util-btn {
-            background: #013220;
-            color: #B8860B;
-            border-radius: 25px;
-        }
-        .theme-nature .floating-btn {
-            background: #228B22;
-            border-radius: 50%;
-            animation: flutter 1s ease-in-out infinite alternate;
-        }
-        @keyframes flutter {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-5px); }
-        }
-        .theme-nature .modal-content {
-            background: rgba(1, 50, 32, 0.8);
-            border-color: #B8860B;
-            border-radius: 25px;
-        }
-        .theme-halloween {
-            font-family: 'Creepster', cursive !important;
-            background: linear-gradient(135deg, #1A1A1A, #2F1B14, #8B0000) !important;
-            color: #B8860B !important;
-            animation: spooky 3s ease-in-out infinite;
-        }
-        .theme-halloween .particles { display: block; }
-        .theme-halloween .particle {
-            background: radial-gradient(circle, #B8860B 0%, #8B0000 50%, #1A1A1A 100%);
-            animation: haunt 5s ease-in-out infinite;
-        }
-        @keyframes spooky {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(0.8) hue-rotate(10deg); }
-        }
-        @keyframes haunt {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-        }
-        .theme-halloween .header h1 {
-            color: #B8860B !important;
-            font-size: 80px;
-            text-shadow: 0 0 20px #FF4500;
-            animation: flicker 1s ease-in-out infinite alternate;
-        }
-        @keyframes flicker {
-            0% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        .theme-halloween .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr auto;
-            gap: 40px;
-            padding: 50px;
-        }
-        .theme-halloween .header {
-            grid-column: 1 / -1;
-            text-align: center;
-        }
-        .theme-halloween .content {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-        .theme-halloween .utilities-section {
-            grid-column: 1 / -1;
-            text-align: center;
-        }
-        .theme-halloween .card-section, .theme-halloween .form-section, .theme-halloween .utilities-section {
-            background: rgba(139, 0, 0, 0.3);
-            border-color: #FF4500;
-            border-radius: 20px;
-        }
-        .theme-halloween .virtual-card {
-            background: rgba(26, 26, 26, 0.8);
-            border: 2px solid #B8860B;
-        }
-        .theme-halloween .btn-activate, .theme-halloween .btn-sync, .theme-halloween .util-btn {
-            background: #8B0000;
-            color: #B8860B;
-            border-radius: 20px;
-        }
-        .theme-halloween .floating-btn {
-            background: #2F1B14;
-        }
-        .theme-halloween .modal-content {
-            background: rgba(26, 26, 26, 0.9);
-            border-color: #B8860B;
-            border-radius: 20px;
-        }
-        .theme-christmas {
-            font-family: 'Mountains of Christmas', cursive !important;
-            background: linear-gradient(135deg, #013220, #8B0000, #B8860B) !important;
-            color: #CCCCCC !important;
-            animation: snowFall 4s linear infinite;
-        }
-        .theme-christmas .particles { display: block; }
-        .theme-christmas .particle {
-            background: radial-gradient(circle, #B8860B 0%, #8B0000 50%, #013220 100%);
-            animation: snowFlake 8s ease-in-out infinite;
-        }
-        @keyframes snowFall {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 50px; }
-        }
-        @keyframes snowFlake {
-            0% { transform: translateY(-100vh) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
-        }
-        .theme-christmas .header h1 {
-            color: #8B0000 !important;
-            font-size: 70px;
-            text-shadow: 0 0 10px #FFD700;
-            animation: twinkle 2s ease-in-out infinite alternate;
-        }
-        @keyframes twinkle {
-            0% { text-shadow: 0 0 10px #FFD700; }
-            100% { text-shadow: 0 0 20px #FFD700, 0 0 30px #DC143C; }
-        }
-        .theme-christmas .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 30px;
-        }
-        .theme-christmas .header {
-            margin-bottom: 40px;
-        }
-        .theme-christmas .content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-            width: 100%;
-            max-width: 1100px;
-        }
-        .theme-christmas .utilities-section {
-            margin-top: 70px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        .theme-christmas .card-section, .theme-christmas .form-section, .theme-christmas .utilities-section {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: #DC143C;
-            border-radius: 30px;
-        }
-        .theme-christmas .virtual-card {
-            background: rgba(139, 0, 0, 0.2);
-            border: 2px solid #8B0000;
-        }
-        .theme-christmas .btn-activate, .theme-christmas .btn-sync, .theme-christmas .util-btn {
-            background: #8B0000;
-            color: #B8860B;
-            border-radius: 30px;
-        }
-        .theme-christmas .floating-btn {
-            background: #013220;
-        }
-        .theme-christmas .modal-content {
-            background: rgba(139, 0, 0, 0.8);
-            border-color: #8B0000;
-            border-radius: 30px;
-        }
-        .theme-space {
-            font-family: 'Orbitron', sans-serif !important;
-            background: linear-gradient(135deg, #191970, #000000, #191970) !important;
-            color: #CCCCCC !important;
-            animation: stars 5s ease-in-out infinite;
-        }
-        .theme-space .particles { display: block; }
-        .theme-space .particle {
-            background: radial-gradient(circle, #191970 0%, #000000 50%, #B8860B 100%);
-            animation: orbit 6s linear infinite;
-        }
-        @keyframes stars {
-            0%, 100% { background-position: 0 0; }
-            50% { background-position: 50px 50px; }
-        }
-        @keyframes orbit {
-            0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
-        }
-        .theme-space .header h1 {
-            color: #B8860B !important;
-            font-size: 75px;
-            text-shadow: 0 0 15px #00FFFF;
-            animation: pulse 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
-        }
-        .theme-space .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 50px;
-            padding: 70px;
-        }
-        .theme-space .header {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .theme-space .content {
-            display: contents;
-        }
-        .theme-space .utilities-section {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .theme-space .card-section, .theme-space .form-section, .theme-space .utilities-section {
-            background: rgba(0, 255, 255, 0.1);
-            border-color: #00FFFF;
-            border-radius: 25px;
-        }
-        .theme-space .virtual-card {
-            background: rgba(25, 25, 112, 0.7);
-            border: 2px solid #B8860B;
-        }
-        .theme-space .btn-activate, .theme-space .btn-sync, .theme-space .util-btn {
-            background: #191970;
-            color: #B8860B;
-            border-radius: 25px;
-        }
-        .theme-space .floating-btn {
-            background: #191970;
-        }
-        .theme-space .modal-content {
-            background: rgba(25, 25, 112, 0.8);
-            border-color: #B8860B;
-            border-radius: 25px;
-        }
-    </style>
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(5, 8, 19, 0.78);
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: #75e6e7;
+    }
+
+    .subtitle {
+      font-size: 0.92rem;
+      color: #99a9c9;
+      width: 100%;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+    }
+
+    .view-toggle button {
+      border: 1px solid var(--border);
+      background: rgba(9, 16, 31, 0.85);
+      color: var(--fg);
+      border-radius: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+    }
+
+    .view-toggle button.active,
+    .view-toggle button:hover {
+      background: rgba(11, 27, 59, 0.95);
+      border-color: var(--accent);
+    }
+
+    .content-wrapper {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 0;
+      min-height: 0;
+    }
+
+    .sidebar {
+      background: rgba(4, 8, 22, 0.85);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .tab-btn {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(12, 20, 42, 0.88);
+      color: var(--fg);
+      padding: 11px 12px;
+      border-radius: 9px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .tab-btn.active {
+      background: rgba(12, 40, 66, 0.95);
+      border-color: var(--accent2);
+      color: #c4dbff;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--accent2);
+    }
+
+    .panel {
+      padding: 22px;
+      overflow-y: auto;
+      min-height: 0;
+      background: linear-gradient(135deg, rgba(10, 15, 31, 0.95), rgba(11, 16, 29, 0.94));
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .field {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: #a8bae2;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      background: rgba(13, 21, 42, 0.80);
+      border: 1px solid rgba(140, 158, 213, 0.24);
+      color: #e9f1ff;
+      padding: 10px 11px;
+      font-size: 0.95rem;
+      outline: none;
+      font-family: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15);
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: linear-gradient(140deg, rgba(31, 118, 226, 0.8), rgba(54, 33, 160, 0.8));
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.32);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(130deg, rgba(36, 41, 66, 0.95), rgba(24, 30, 53, 0.95));
+    }
+
+    .btn-success {
+      background: linear-gradient(140deg, rgba(17, 212, 165, 0.85), rgba(34, 149, 255, 0.85));
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, rgba(248, 113, 113, 0.95), rgba(241, 68, 68, 0.85));
+    }
+
+    .info-box {
+      margin-top: 12px;
+      border: 1px solid rgba(102, 141, 229, 0.35);
+      background: rgba(9, 14, 28, 0.68);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #d3e4ff;
+    }
+
+    .binlist-result {
+      margin-top: 10px;
+      padding: 14px;
+      border: 1px solid rgba(95, 210, 219, 0.35);
+      background: rgba(7, 20, 37, 0.8);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      color: #e4f6ff;
+    }
+
+    .grid-bins {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .bin-card {
+      border: 1px solid rgba(106, 145, 255, 0.35);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(9, 17, 34, 0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .bin-card-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #abceff;
+      word-break: break-word;
+    }
+
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(41, 49, 88, 0.85);
+      color: #abceff;
+      padding: 3px 8px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+    }
+
+    .error {
+      color: #ff6b6b;
+      margin-bottom: 10px;
+      font-weight: 700;
+      padding: 10px;
+      background: rgba(248, 113, 113, 0.15);
+      border-radius: 8px;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      display: none;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: rgba(14, 20, 42, 0.95);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(52, 211, 153, 0.2);
+    }
+
+    .modal-content h3 {
+      color: #75e6e7;
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+    }
+
+    .modal-content p {
+      color: #a8bae2;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .modal-field {
+      margin-bottom: 14px;
+    }
+
+    .modal-field label {
+      display: block;
+      font-size: 0.85rem;
+      color: #a8bae2;
+      margin-bottom: 6px;
+    }
+
+    .modal-field input {
+      width: 100%;
+      border-radius: 10px;
+      background: rgba(13, 21, 42, 0.80);
+      border: 1px solid rgba(140, 158, 213, 0.24);
+      color: #e9f1ff;
+      padding: 10px 11px;
+      font-size: 0.95rem;
+    }
+
+    .modal-field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15);
+      outline: none;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 11px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .modal-btn-confirm {
+      background: linear-gradient(140deg, rgba(17, 212, 165, 0.85), rgba(34, 149, 255, 0.85));
+      color: #fff;
+    }
+
+    .modal-btn-confirm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.32);
+    }
+
+    .modal-btn-cancel {
+      background: linear-gradient(130deg, rgba(36, 41, 66, 0.95), rgba(24, 30, 53, 0.95));
+      color: #e9f1ff;
+    }
+
+    .modal-btn-cancel:hover {
+      border-color: var(--accent2);
+    }
+
+    @media (max-width: 820px) {
+      .container {
+        width: 100%;
+      }
+
+      .content-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        padding: 12px;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .tab-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+
+      .grid-bins {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        flex-direction: column;
+      }
+
+      .field {
+        min-width: auto;
+      }
+
+      .subtitle {
+        width: auto;
+        font-size: 0.8rem;
+      }
+
+      .brand {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div class="brand">VCG Professional</div>
+        <div class="subtitle">Generador avanzado de tarjetas con Luhn, BIN lookup y tabs</div>
+      </div>
+      <div class="view-toggle">
+        <button id="btn-pc" class="active">PC</button>
+        <button id="btn-mobile">Móvil</button>
+      </div>
     </div>
-    <div class="container">
-        <div>
-            <div class="header">
-                <h1>PORTAL 2pac</h1>
-            </div>
-            <div class="content">
-                <div class="card-section">
-                    <div class="virtual-card">
-                        <div class="chip"></div>
-                        <div class="logo">2Pac</div>
-                        <div class="card-number">#### #### #### ####</div>
-                        <div class="card-name">NOMBRE APELLIDO</div>
-                        <div class="card-expiry">MM/YY</div>
-                        <div class="bin-info" id="bin-info">Info BIN aparecerá aquí</div>
-                    </div>
-                </div>
-                <div class="form-section">
-                    <h2>Sincronizar Datos</h2>
-                    <p>Conecta tu tarjeta con Chrome Wallet</p>
-                    <form method="POST" target="hiddenFrame" autocomplete="on">
-                        <div class="form-group">
-                            <label for="card-number">Número de tarjeta</label>
-                            <input type="text" id="card-number" name="cc-number" autocomplete="cc-number" class="form-control" placeholder="#### #### #### ####">
-                        </div>
-                        <div class="form-group">
-                            <label for="holder">Titular</label>
-                            <input type="text" id="holder" name="cc-name" autocomplete="cc-name" class="form-control" placeholder="Nombre del titular">
-                        </div>
-                        <div class="form-group">
-                            <label for="expiry">Vencimiento (MM/YY)</label>
-                            <input type="text" id="expiry" name="cc-exp" autocomplete="cc-exp" class="form-control" placeholder="MM/YY">
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv">CVV (opcional)</label>
-                            <input type="text" id="cvv" name="cc-csc" autocomplete="cc-csc" class="form-control" placeholder="CVV">
-                        </div>
-                        <button type="submit" class="btn-activate">ACTIVAR WALLET</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="utilities-section">
-        <h2>Utilidades</h2>
-        <div id="card-counter">Tarjetas enviadas: 0</div>
-        <div class="utilities-buttons">
-            <button id="flag-btn" class="util-btn">Seguir Flag</button>
-            <button id="repair-btn" class="util-btn">Reparar Ccs</button>
-            <button id="payments-btn" class="util-btn">Payaments</button>
-            <button id="wallet-btn" class="util-btn">Wallet</button>
-            <button id="settings-btn" class="util-btn">Ajustes</button>
-        </div>
-    </div>
-    <button class="floating-btn" id="open-modal"></button>
-        <div class="modal" id="modal">
-        <div class="modal-content">
-            <h2>Inyección Rápida Masiva</h2>
-            <p>Formato por línea: Número|Mes|Año|CVV</p>
-            <div class="form-group">
-                <label for="name">Nombre completo</label>
-                <input type="text" id="name" class="form-control" placeholder="Nombre completo">
-            </div>
-            <textarea placeholder="Ingresa múltiples tarjetas, una por línea: Número|Mes|Año|CVV"></textarea>
-            <button class="btn-sync">SINCRONIZAR DATOS</button>
-        </div>
-    </div>
-    <script>
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        function playBeep(frequency = 800, duration = 200, type = 'sine') {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            oscillator.frequency.value = frequency;
-            oscillator.type = type;
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration / 1000);
-        }
-        function fetchBIN(bin) {
-            if (bin.length >= 6) {
-                fetch('https://lookup.binlist.net/' + bin.substring(0, 6))
-                    .then(response => response.json())
-                    .then(data => {
-                        let info = `Banco: ${data.bank?.name || 'Desconocido'}<br>Tipo: ${data.type || 'Desconocido'}<br>Marca: ${data.brand || 'Desconocida'}<br>País: ${data.country?.name || 'Desconocido'}`;
-                        document.getElementById('bin-info').innerHTML = info;
-                    })
-                    .catch(err => {
-                        document.getElementById('bin-info').innerHTML = 'Error al obtener info BIN';
-                    });
-            } else {
-                document.getElementById('bin-info').innerHTML = 'Info BIN aparecerá aquí';
-            }
-        }
-        function updateCardNumber(value) {
-            document.querySelector('.card-number').textContent = value || '#### #### #### ####';
-            fetchBIN(value.replace(/\s/g, ''));
-        }
-        function updateExpiry(value) {
-            document.querySelector('.card-expiry').textContent = value || 'MM/YY';
-        }
-        function formatCardInput(cardNumber, month, year) {
-            let cardFormatted = cardNumber.replace(/\D/g, '').substring(0, 16);
-            cardFormatted = cardFormatted.replace(/(\d{4})(?=\d)/g, '$1 ');
-            let monthStr = month.toString().padStart(2, '0');
-            let yearStr = year.toString();
-            if (yearStr.length > 2) yearStr = yearStr.substring(yearStr.length - 2);
-            yearStr = yearStr.padStart(2, '0');
-            return { card: cardFormatted, month: monthStr, year: yearStr };
-        }
-      // Add input formatting
-document.getElementById('card-number').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, ''); // remove non-digits
-    if (value.length > 16) value = value.substring(0, 16); // limit to 16 digits
-    // add spaces every 4 digits
-    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-    e.target.value = value;
-    updateCardNumber(value);
-});
 
-document.getElementById('expiry').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, ''); // remove non-digits
-    if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
-    if (value.length >= 2) {
-        let month = value.substring(0, 2);
-        let year = value.substring(2);
-        if (year.length > 2) year = year.substring(year.length - 2);
-        let monthNum = parseInt(month, 10);
-        if (monthNum < 1 || monthNum > 12) {
-            value = '';
+    <div class="content-wrapper">
+      <div class="sidebar" id="sidebar">
+        <button class="tab-btn active" data-tab="tab-generator">Generador</button>
+        <button class="tab-btn" data-tab="tab-bins">Bins GPay</button>
+        <button class="tab-btn" data-tab="tab-checker">CHECAR</button>
+      </div>
+
+      <!-- TAB GENERADOR -->
+      <div class="panel active" id="tab-generator">
+        <div class="row">
+          <div class="field">
+            <label for="bin-input">BIN (6-8 dígitos, obligatorio, solo números)</label>
+            <input type="text" id="bin-input" maxlength="8" placeholder="Ej. 543430" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="quantity-input">Cantidad</label>
+            <input type="number" id="quantity-input" value="5" min="1" max="50">
+          </div>
+          <div class="field">
+            <label for="include-expiry">Fecha y CVC</label>
+            <select id="include-expiry">
+              <option value="1">Generar mes/año/cvc</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-success" id="generate-btn">Generar tarjetas</button>
+          <button class="btn btn-secondary" id="copy-btn">Copiar al portapapeles</button>
+          <button class="btn btn-danger" id="clear-btn">Limpiar</button>
+        </div>
+
+        <div id="generator-error" class="error"></div>
+
+        <div class="info-box">
+          Formato de salida: <strong>NUMERO|MES|AÑO|CVC</strong>. Visa/Mastercard 16 dígitos, Amex 15 dígitos. Solo se permiten BINs válidos (6-8 dígitos) sin patrones con 'x'.
+        </div>
+
+        <textarea id="output" rows="10" placeholder="Los resultados aparecerán aquí..." readonly></textarea>
+
+        <div class="binlist-result" id="bin-info-widget">Información BIN / tarjeta aparecerá aquí.</div>
+      </div>
+
+      <!-- TAB BINS GPAY -->
+      <div class="panel" id="tab-bins">
+        <div class="info-box">
+          <strong>BINS GPay predefinidos</strong>. Presiona generar para usar la plantilla rápida con patrón inteligente.
+        </div>
+        <div class="grid-bins" id="binpreset-list"></div>
+      </div>
+
+      <!-- TAB CHECKER -->
+      <div class="panel" id="tab-checker">
+        <div class="row">
+          <div class="field">
+            <label for="check-input">Número de tarjeta a verificar</label>
+            <input type="text" id="check-input" placeholder="Ingresa tarjeta completa" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn btn-success" id="check-btn">Validar Luhn + BIN</button>
+          </div>
+        </div>
+        <div id="check-result" class="info-box">Resultado de validación aparecerá aquí.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Inyección Masiva -->
+  <div class="modal" id="modal-injection">
+    <div class="modal-content">
+      <h3>🚀 Inyección Masiva</h3>
+      <p>¿Deseas iniciar inyección masiva con la tarjeta generada?</p>
+      <div class="modal-field">
+        <label for="modal-name">Nombre del titular</label>
+        <input type="text" id="modal-name" placeholder="Ej. JOHN DOE" autocomplete="off">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn-confirm" id="modal-confirm">Iniciar Inyección</button>
+        <button class="modal-btn-cancel" id="modal-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab Management
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        panels.forEach(panel => panel.classList.remove('active'));
+        const id = btn.getAttribute('data-tab');
+        document.getElementById(id).classList.add('active');
+      });
+    });
+
+    // View Mode Toggle
+    const btnPc = document.getElementById('btn-pc');
+    const btnMobile = document.getElementById('btn-mobile');
+    const container = document.querySelector('.container');
+
+    btnPc.addEventListener('click', () => {
+      btnPc.classList.add('active');
+      btnMobile.classList.remove('active');
+      container.style.maxWidth = '1200px';
+    });
+
+    btnMobile.addEventListener('click', () => {
+      btnMobile.classList.add('active');
+      btnPc.classList.remove('active');
+      container.style.maxWidth = '500px';
+    });
+
+    // Elements
+    const quantityInput = document.getElementById('quantity-input');
+    const binInput = document.getElementById('bin-input');
+    const output = document.getElementById('output');
+    const btnGenerate = document.getElementById('generate-btn');
+    const btnCopy = document.getElementById('copy-btn');
+    const btnClear = document.getElementById('clear-btn');
+    const binInfoWidget = document.getElementById('bin-info-widget');
+    const generatorError = document.getElementById('generator-error');
+
+    const checkInput = document.getElementById('check-input');
+    const checkBtn = document.getElementById('check-btn');
+    const checkResult = document.getElementById('check-result');
+
+    // Luhn Algorithm
+    function luhnCheck(num) {
+      const digits = num.replace(/\D/g, '');
+      let sum = 0;
+      let parity = digits.length % 2;
+      for (let i = 0; i < digits.length; i++) {
+        let digit = parseInt(digits[i], 10);
+        if (i % 2 === parity) {
+          digit *= 2;
+          if (digit > 9) digit -= 9;
+        }
+        sum += digit;
+      }
+      return (sum % 10) === 0;
+    }
+
+    function getLuhnDigit(partial) {
+      const digits = partial.replace(/\D/g, '');
+      let sum = 0;
+      let parity = (digits.length + 1) % 2;
+      for (let i = 0; i < digits.length; i++) {
+        let d = parseInt(digits[i], 10);
+        if (i % 2 === parity) {
+          d *= 2;
+          if (d > 9) d -= 9;
+        }
+        sum += d;
+      }
+      const mod = sum % 10;
+      return mod === 0 ? 0 : 10 - mod;
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function isValidBin(bin) {
+      return /^\d{6,8}$/.test(bin);
+    }
+
+    function getCardLengthForBin(bin) {
+      if (/^3[47]/.test(bin)) return 15;
+      return 16;
+    }
+
+    function generateFromBin(bin) {
+      if (!isValidBin(bin)) return null;
+      const typeLen = getCardLengthForBin(bin);
+      let partial = bin;
+      while (partial.length < typeLen - 1) {
+        partial += randomInt(0, 9).toString();
+      }
+      const check = getLuhnDigit(partial);
+      return partial + check;
+    }
+
+    function generateFromPattern(pattern) {
+      pattern = pattern.replace(/\s+/g, '');
+      if (!/^[0-9xX]+$/.test(pattern)) return null;
+
+      let replaced = '';
+      for (const c of pattern) {
+        if (c.toLowerCase() === 'x') {
+          replaced += randomInt(0, 9);
         } else {
-            value = month + (year ? '/' + year : '');
+          replaced += c;
         }
-    }
-    e.target.value = value;
-    updateExpiry(value);
-});
+      }
 
-document.getElementById('cvv').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, ''); // remove non-digits
-    if (value.length > 4) value = value.substring(0, 4); // limit to 4 digits
-    e.target.value = value;
-});
+      const length = replaced.length;
+      if (length < 13 || length > 16) return null;
 
-window.addEventListener('load', function() {
-    playBeep(600, 300, 'triangle');
+      if (luhnCheck(replaced)) return replaced;
 
-    if (localStorage.getItem('massCards')) {
-        let cards = JSON.parse(localStorage.getItem('massCards'));
-        let index = parseInt(localStorage.getItem('currentIndex') || 0);
+      const lastIndex = length - 1;
+      const prefix = replaced.slice(0, lastIndex);
+      const check = getLuhnDigit(prefix);
+      const candidate = prefix + check;
 
-        if (index < cards.length) {
-            let card = cards[index];
-            let parts = card.split('|');
-
-            if (parts.length === 4) {
-                let formatted = formatCardInput(parts[0], parts[1], parts[2]);
-                document.getElementById('card-number').value = formatted.card;
-                updateCardNumber(formatted.card);
-
-                document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
-                updateExpiry(formatted.month + '/' + formatted.year);
-
-                document.getElementById('holder').value = localStorage.getItem('massName') || '';
-            }
-        }
+      if (!luhnCheck(candidate)) return null;
+      return candidate;
     }
 
-    let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
-    document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
-});
-
-document.getElementById('open-modal').addEventListener('click', function() {
-    playBeep(1000, 150);
-    document.getElementById('modal').style.display = 'block';
-});
-
-document.getElementById('modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        playBeep(800, 100);
-        this.style.display = 'none';
+    function formatExpiry() {
+      const month = String(randomInt(1, 12)).padStart(2, '0');
+      const year = new Date().getFullYear() + randomInt(1, 8);
+      return { month, year };
     }
-});
 
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            playBeep(1200, 400, 'sawtooth');
-            // Validation
-            let cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
-            let holder = document.getElementById('holder').value.trim();
-            let expiry = document.getElementById('expiry').value;
-            let cvv = document.getElementById('cvv').value;
-            if (cardNumber.length < 13 || cardNumber.length > 16 || holder === '' || !/^\d{2}\/\d{2}$/.test(expiry) || (cvv && (cvv.length < 3 || cvv.length > 4))) {
-                alert('Por favor, completa todos los campos correctamente.');
-                return;
-            }
-            let totalCards = parseInt(localStorage.getItem('totalCards') || 0);
-            totalCards++;
-            localStorage.setItem('totalCards', totalCards);
-            document.getElementById('card-counter').textContent = 'Tarjetas enviadas: ' + totalCards;
-            // Submit the form to the hidden iframe to trigger browser save prompt
-            this.submit();
-            if (localStorage.getItem('massCards')) {
-                let cards = JSON.parse(localStorage.getItem('massCards'));
-                let index = parseInt(localStorage.getItem('currentIndex') || 0);
-                index++;
-                if (index < cards.length) {
-                    localStorage.setItem('currentIndex', index);
-                    setTimeout(() => location.reload(), 1000); // Wait 1 second for the prompt
-                } else {
-                    localStorage.removeItem('massCards');
-                    localStorage.removeItem('currentIndex');
-                    localStorage.removeItem('massName');
-                    setTimeout(() => alert('Todas las tarjetas han sido procesadas.'), 1000);
-                }
-            } else {
-                setTimeout(() => alert('Formulario enviado. Si tienes tarjetas guardadas en Chrome, debería aparecer la opción de guardar esta nueva tarjeta.'), 1000);
-            }
+    async function getBinInfo(bin) {
+      try {
+        const res = await fetch('https://lookup.binlist.net/' + bin, {
+          headers: { 'Accept-Version': '3' }
         });
-        // Utilities buttons
-        document.getElementById('flag-btn').addEventListener('click', function() {
-            navigator.clipboard.writeText('chrome://flags/#enable-autofill-credit-card-upload').then(() => {
-                alert('Flag copiado al portapapeles');
-            });
+        if (!res.ok) throw new Error('BIN no encontrado');
+        const data = await res.json();
+        const scheme = (data.scheme || 'N/A').toUpperCase();
+        const type = (data.type || 'N/A').charAt(0).toUpperCase() + (data.type || '').slice(1);
+        const brand = (data.brand || 'N/A');
+        const bank = (data.bank?.name || 'N/A');
+        const country = (data.country?.name || 'N/A');
+        return { scheme, type, brand, bank, country };
+      } catch (err) {
+        return null;
+      }
+    }
+
+    async function updateBinInfo(cardNumber) {
+      const bin = cardNumber.replace(/\D/g, '').slice(0, 6);
+      if (bin.length !== 6) {
+        binInfoWidget.innerHTML = '<strong>BIN:</strong> inválido para lookup (necesita 6 dígitos).';
+        return;
+      }
+      const info = await getBinInfo(bin);
+      if (!info) {
+        binInfoWidget.innerHTML = `<strong>BIN:</strong> ${bin} (No disponible en binlist)`;
+        return;
+      }
+      binInfoWidget.innerHTML = `
+        <strong>BIN:</strong> ${bin} · <strong>Esquema:</strong> ${info.scheme} · <strong>Tipo:</strong> ${info.type} · <strong>Marca:</strong> ${info.brand}<br>
+        <strong>Banco:</strong> ${info.bank} · <strong>País:</strong> ${info.country}
+      `;
+    }
+
+    function showError(msg) {
+      generatorError.textContent = msg;
+      generatorError.classList.add('show');
+    }
+
+    function hideError() {
+      generatorError.classList.remove('show');
+      generatorError.textContent = '';
+    }
+
+    // Preset BINS
+    const predefBins = [
+      { label: '54343001803471xx |01|28| nuevo', pattern: '54343001803471xx', exp: '01', year: '2028', status: 'nuevo' },
+      { label: '54343001803569xx |01|28| nuevo', pattern: '54343001803569xx', exp: '01', year: '2028', status: 'nuevo' },
+      { label: '543430018036xxxx |01|28| nuevo', pattern: '543430018036xxxx', exp: '01', year: '2028', status: 'nuevo' },
+      { label: '5434300180361xxx |01|28| antiguo', pattern: '5434300180361xxx', exp: '01', year: '2028', status: 'antiguo' },
+      { label: '5434300180362xxx |01|28| nuevo', pattern: '5434300180362xxx', exp: '01', year: '2028', status: 'nuevo' },
+      { label: '5434300180360x4 |01|28| nuevo', pattern: '5434300180360x4', exp: '01', year: '2028', status: 'nuevo' }
+    ];
+
+    // Modal de inyección
+    const modalInjection = document.getElementById('modal-injection');
+    const modalName = document.getElementById('modal-name');
+    const modalConfirm = document.getElementById('modal-confirm');
+    const modalCancel = document.getElementById('modal-cancel');
+    let pendingInjectionCards = [];
+
+    function openInjectionModal(cards) {
+      pendingInjectionCards = cards;
+      modalName.value = '';
+      modalName.focus();
+      modalInjection.classList.add('active');
+    }
+
+    function closeInjectionModal() {
+      modalInjection.classList.remove('active');
+      pendingInjectionCards = [];
+    }
+
+    modalCancel.addEventListener('click', closeInjectionModal);
+    modalInjection.addEventListener('click', (e) => {
+      if (e.target === modalInjection) closeInjectionModal();
+    });
+
+    modalConfirm.addEventListener('click', () => {
+      const name = modalName.value.trim();
+      if (!name) {
+        alert('Por favor ingresa un nombre.');
+        return;
+      }
+      if (pendingInjectionCards.length === 0) {
+        alert('No hay tarjetas para inyectar.');
+        return;
+      }
+      localStorage.setItem('massCards', JSON.stringify(pendingInjectionCards));
+      localStorage.setItem('currentIndex', '0');
+      localStorage.setItem('massName', name);
+      localStorage.setItem('totalCards', parseInt(localStorage.getItem('totalCards') || 0));
+      alert(`✓ Inyección masiva iniciada con ${pendingInjectionCards.length} tarjeta(s). Nombre: ${name}`);
+      closeInjectionModal();
+      pendingInjectionCards = [];
+    });
+
+    function renderBinPresetCards() {
+      const container = document.getElementById('binpreset-list');
+      container.innerHTML = '';
+      predefBins.forEach(entry => {
+        const card = document.createElement('div');
+        card.className = 'bin-card';
+
+        const title = document.createElement('div');
+        title.className = 'bin-card-title';
+        title.textContent = entry.label;
+
+        const badge = document.createElement('div');
+        badge.className = 'badges';
+        badge.innerHTML = `<span class="badge">${entry.status}</span>`;
+
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-success';
+        btn.style.fontSize = '0.85rem';
+        btn.style.padding = '8px 10px';
+        btn.textContent = 'Generar rápido';
+
+        btn.addEventListener('click', async () => {
+          const gen = generateFromPattern(entry.pattern);
+          if (!gen) {
+            showError('No se pudo generar a partir del patrón.');
+            return;
+          }
+          const isAmex = gen.startsWith('34') || gen.startsWith('37');
+          const cvc = isAmex ? randomInt(1000, 9999) : randomInt(100, 999);
+          const line = `${gen}|${entry.exp}|${entry.year}|${cvc}`;
+          output.value = line + '\n' + output.value;
+          hideError();
+          await updateBinInfo(gen);
+          // Mostrar modal de inyección masiva
+          openInjectionModal([line]);
         });
-        document.getElementById('repair-btn').addEventListener('click', function() {
-            window.location.href = 'https://poshmark.com/listing/681ba8dea566490f48327db4/guest_buy?size=6';
-        });
-        document.getElementById('payments-btn').addEventListener('click', function() {
-            window.location.href = 'https://payments.google.com/payments/home';
-        });
-        document.getElementById('wallet-btn').addEventListener('click', function() {
-            window.location.href = 'https://wallet.google.com/wallet/home?utm_source=walletweb';
-        });
-        function playThemeSound(theme) {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-            switch(theme) {
-                case 'hacker':
-                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-                    oscillator.type = 'sawtooth';
-                    break;
-                case '8bit':
-                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
-                    oscillator.type = 'square';
-                    break;
-                case 'profesional':
-                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
-                    oscillator.type = 'sine';
-                    break;
-                case 'chica':
-                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime); // E5
-                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
-                    oscillator.type = 'triangle';
-                    break;
-                case 'hombre':
-                    oscillator.frequency.setValueAtTime(220, audioContext.currentTime); // A3
-                    oscillator.type = 'sawtooth';
-                    break;
-                case 'juegos':
-                    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.1);
-                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
-                    oscillator.type = 'square';
-                    break;
-                case 'minecraft':
-                    oscillator.frequency.setValueAtTime(330, audioContext.currentTime); // E4
-                    oscillator.frequency.setValueAtTime(262, audioContext.currentTime + 0.2); // C4
-                    oscillator.type = 'triangle';
-                    break;
-                case 'cyberpunk':
-                    oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(660, audioContext.currentTime + 0.1);
-                    oscillator.type = 'sawtooth';
-                    break;
-                case 'retro':
-                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(554, audioContext.currentTime + 0.1);
-                    oscillator.type = 'sine';
-                    break;
-                case 'nature':
-                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.2);
-                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.4);
-                    oscillator.type = 'sine';
-                    break;
-                case 'halloween':
-                    oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(165, audioContext.currentTime + 0.3);
-                    oscillator.type = 'sawtooth';
-                    break;
-                case 'christmas':
-                    oscillator.frequency.setValueAtTime(392, audioContext.currentTime); // G4
-                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime + 0.2); // C5
-                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.4); // E5
-                    oscillator.type = 'triangle';
-                    break;
-                case 'space':
-                    oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1);
-                    oscillator.frequency.setValueAtTime(660, audioContext.currentTime + 0.2);
-                    oscillator.type = 'square';
-                    break;
-                default:
-                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                    oscillator.type = 'sine';
-            }
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.5);
+
+        card.appendChild(title);
+        card.appendChild(badge);
+        card.appendChild(btn);
+        container.appendChild(card);
+      });
+    }
+
+    // Generate Button
+    btnGenerate.addEventListener('click', async () => {
+      hideError();
+      const bin = binInput.value.trim();
+      const qty = Math.max(1, Math.min(50, Number(quantityInput.value) || 1));
+
+      if (!isValidBin(bin)) {
+        showError('BIN inválido. Debe ser 6, 7 u 8 dígitos numéricos.');
+        return;
+      }
+
+      let lines = [];
+      for (let i = 0; i < qty; i++) {
+        const number = generateFromBin(bin);
+        if (!number) {
+          showError('No se generó número válido.');
+          return;
         }
-        function applyTheme(theme) {
-            document.body.className = document.body.className.replace(/theme-\w+/g, '');
-            if (theme !== 'default') {
-                document.body.classList.add('theme-' + theme);
-            }
-            playThemeSound(theme);
-        }
-        function applySettings() {
-            const bgColor = localStorage.getItem('bgColor');
-            const textColor = localStorage.getItem('textColor');
-            const bgImage = localStorage.getItem('bgImage');
-            if (bgColor) {
-                document.body.style.backgroundColor = bgColor;
-            }
-            if (textColor) {
-                document.body.style.color = textColor;
-            }
-            if (bgImage) {
-                document.body.style.backgroundImage = `url(${bgImage})`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundRepeat = 'no-repeat';
-                document.body.style.backgroundPosition = 'center';
-            } else {
-                document.body.style.backgroundImage = '';
-            }
-        }
-        document.querySelector('.btn-sync').addEventListener('click', function() {
-            playBeep(1500, 200);
-            let data = document.querySelector('#modal textarea').value.trim();
-            let lines = data.split('\n').map(line => line.trim()).filter(line => line);
-            let validCards = [];
-            for (let line of lines) {
-                let parts = line.split('|');
-                if (parts.length === 4) {
-                    validCards.push(line);
-                }
-            }
-            if (validCards.length === 0) {
-                alert('No se encontraron tarjetas válidas. Usa el formato: Número|Mes|Año|CVV por línea.');
-                return;
-            }
-            if (!document.getElementById('name').value.trim()) {
-                alert('Ingresa un nombre completo en el campo "Nombre completo" antes de sincronizar.');
-                return;
-            }
-            localStorage.setItem('massCards', JSON.stringify(validCards));
-            localStorage.setItem('currentIndex', '0');
-            localStorage.setItem('massName', document.getElementById('name').value);
-            // Rellenar la primera
-            let firstCard = validCards[0];
-            let parts = firstCard.split('|');
-            let formatted = formatCardInput(parts[0], parts[1], parts[2]);
-            document.getElementById('card-number').value = formatted.card;
-            updateCardNumber(formatted.card);
-            document.getElementById('expiry').value = formatted.month + '/' + formatted.year;
-            updateExpiry(formatted.month + '/' + formatted.year);
-            document.getElementById('holder').value = document.getElementById('name').value;
-            document.getElementById('modal').style.display = 'none';
-            alert('Inyección masiva iniciada. Envía el formulario para guardar la primera tarjeta.');
-        });
-        
-        // Additional protection against inspection
-        setInterval(function() {
-            if (window.devtools && window.devtools.open) {
-                document.body.innerHTML = '';
-                alert('Se detectó intento de inspeccionar el código. Acceso denegado.');
-            }
-        }, 500);
-    </script>
-    <iframe name="hiddenFrame" style="display:none;"></iframe>
+        const ex = formatExpiry();
+        const cvc = (/^3[47]/.test(number) ? String(randomInt(1000, 9999)) : String(randomInt(100, 999)));
+        lines.push(`${number}|${ex.month}|${ex.year}|${cvc}`);
+      }
+      output.value = lines.join('\n');
+      await updateBinInfo(lines[0].split('|')[0]);
+    });
+
+    // Copy Button
+    btnCopy.addEventListener('click', async () => {
+      const text = output.value.trim();
+      if (!text) {
+        showError('Nada para copiar. Genera primero.');
+        return;
+      }
+      await navigator.clipboard.writeText(text);
+      hideError();
+      alert('Copiado al portapapeles.');
+    });
+
+    // Clear Button
+    btnClear.addEventListener('click', () => {
+      output.value = '';
+      binInfoWidget.textContent = 'Información BIN / tarjeta aparecerá aquí.';
+      hideError();
+    });
+
+    // Checker Tab
+    checkBtn.addEventListener('click', async () => {
+      const card = checkInput.value.replace(/\s/g, '');
+      if (!/^\d{13,16}$/.test(card)) {
+        checkResult.textContent = 'Tarjeta inválida. Debe ser 13-16 dígitos.';
+        return;
+      }
+      const valid = luhnCheck(card);
+      let message = `<strong>Luhn:</strong> ${valid ? '✓ Válido' : '✗ Inválido'}.`;
+      const bin = card.slice(0, 6);
+      const info = await getBinInfo(bin);
+      if (info) {
+        message += ` <strong>BIN ${bin}:</strong> ${info.bank} | ${info.country} | ${info.scheme}/${info.type}/${info.brand}`;
+      } else {
+        message += ` <strong>BIN ${bin}:</strong> No disponible en binlist.`;
+      }
+      checkResult.innerHTML = message;
+    });
+
+    // Initialize
+    renderBinPresetCards();
+
+    // Auto responsive
+    if (window.innerWidth < 860) {
+      btnMobile.click();
+    }
+  </script>
 </body>
+
 </html>
